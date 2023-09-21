@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      function numHijos() {
+        var hijos;
+        var texto = prompt("¿Cuantos hijos tienes?", 0);
+        if (texto == null || texto == "") {
+          hijos = "No has introducido el número de hijos";
+        } else {
+          hijos = "Tienes " + texto + " hijos";
+        }
+        alert(hijos);
+      }
+    </script>
+  </head>
+  <body onload="numHijos();"></body>
+</html>

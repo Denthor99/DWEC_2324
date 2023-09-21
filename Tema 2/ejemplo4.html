@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function alerta2()
+{
+var mensaje;
+var opcion = prompt("Introduzca su nombre:", "Juan");
+ 
+if (opcion == null || opcion == "") {
+        mensaje ="Has cancelado o introducido el nombre vacío";
+        
+        } else {
+            mensaje = "Hola " + opcion;
+            }
+            alert( mensaje);
+}
+    </script>
+
+</head>
+<body onload="alerta2();">
+</body>
+</html>
