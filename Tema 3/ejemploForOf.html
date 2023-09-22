@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body onload="//document.write('hola');">
+<script>
+    // La función document.write no es recomendable pues destruye lo anterior
+    // De hecho tenemos en el body comentado esa función pues no nos aparecería el contenido del array
+var coches = ['BMW', 'Volvo', 'Mini'];
+var x;
+for (x of coches) {
+  document.write(x + "<br>");
+}
+</script>
+</body>
+</html>
