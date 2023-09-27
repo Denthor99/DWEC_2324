@@ -1,19 +1,13 @@
 function menorMayorTres() {
+  // Declaración de variables
   var num1 = Number(prompt("Inserte el primer número:"));
   var num2 = Number(prompt("Inserte el segundo número:"));
   var num3 = Number(prompt("Inserte el tercer número:"));
-  var resultado;
+  var resultado = "";
 
-  // Para evitar generar un if muy enrevesado, usaré varios para facilitar la lectura del código
-  // Usamos el primero para verificar que se han introducido correctamente todos los números
-  if (
-    num1 == null ||
-    num1 == "" ||
-    num2 == null ||
-    num2 == "" ||
-    num3 == null ||
-    num3 == ""
-  ) {
+  // Controlamos si se han introducido los tres numeros requeridos
+  if (( num1 == null || num1 == "") || (num2 == null || num2 == "") || 
+  (  num3 == null || num3 == "")) {
     resultado = "No se han introducido los tres valores necesarios";
   }
 
