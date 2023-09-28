@@ -5,8 +5,10 @@ function factorial() {
   var resultado = "";
 
   // Controlamos si el valor introducido es un número (y que no sea negativo)
-  if ( num == null || num == "" || isNaN(num) || num < 1) {
+  if ( num == null || num == "" || num < 0) {
     resultado = "Introduce un valor valido";
+  }else if (num == 0){
+    resultado = "El valor del factorial es 1";
   }else{
     // Usamos un bucle de iteracción para realizar el cálculo del factorial
   do {

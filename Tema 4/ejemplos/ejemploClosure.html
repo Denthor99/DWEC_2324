@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <script>
+    var incrementa = (function () { // Este tipo de funciones son útiles para poder almacenar en memoria información, sin tener que usar variables globales
+        // Código ....
+        var contador = 0 ;
+        var fun= function (){
+            contador++;
+            return contador;
+        }
+    return fun;  
+    })();
+    incrementa();
+    incrementa(); 
+    alert ("Contador = " + incrementa()); // Imprime 3 ...
+  </script>
+</head>
+<body>
+</body>
+</html>
