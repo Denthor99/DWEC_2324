@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+      var objetoA = {a:1 , b : "Hola"}
+        function nombreFuncion (x) {
+          // código a ejecutar;
+          x.a = 3 ; // Accedemos a las propiedades del objeto
+          return "Valor de x = " + x.a;
+        }
+	  alert ("Valor de a = " + objetoA.a ); // Muestra 1
+        alert (nombreFuncion(objetoA)); // Muestra el objeto completo (modifica los valores del objeto)
+        alert ("Valor de a = " + objetoA.a ); // Muestra 3 porque la invocación anterior de la función ha modificado los valores del objeto
+        </script>
+</head>
+<body>
+</body>
+</html>
