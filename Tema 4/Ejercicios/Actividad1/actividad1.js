@@ -83,6 +83,7 @@ function menu() {
     switch (opciones) {
       case 1: // Ejecuta la selección de la figura, almacenando el return correspondiente a la figura escogida
         figura = figuraSeleccionada();
+        debugger;
         break;
       case 2: // Si no se introduce una figura, nos pedirá introducirla, y acto seguido nos pedirá introducir los valores.
         if (figura == 0 || figura == null || figura == "") {
