@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejemplo throw-finally</title>
+    <script>
+      var n = prompt("Introduzca un número : ");
+      try {
+        if (n == "") throw "está vacío";
+        if (isNaN(n)) throw "no es un número";
+        n = Number(n);
+        alert("Se ha introducido el número: " + n);
+      } catch (err) {
+        alert("El valor " + err);
+      } finally {
+        alert("Siempre se ejecuta");
+      }
+    </script>
+  </head>
+  <body></body>
+</html>
