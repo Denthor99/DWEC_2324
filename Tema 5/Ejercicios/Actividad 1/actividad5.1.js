@@ -67,12 +67,11 @@ function rangoArreglo(valores){
 
 function modaArreglo(valores){
     var arrayAnterior = valores;
-    var moda = 0;
-    var conjuntoModas = {}
-    var contador = {}; //Contamos cuantas veces se repiten los valores introducidos 
+    var conjuntoModas = {} // Se almacenarán aquí los números que se repiten (las modas)
+    var contador = {}; // Contamos cuantas veces se repiten los valores introducidos 
     var maxRepeticion = 0;
     for (var i = 0; i < arrayAnterior.length; i++) {
-        var num = arrayAnterior[i];
+        var num = arrayAnterior[i]; // Valor de i actual
         if(contador[num]){
             contador[num]++;
         } else {
@@ -80,22 +79,24 @@ function modaArreglo(valores){
         }
 
         // Comprobamos la frecuencia de los numeros
-        if (contador[num] > maxRepeticion){
+        if (contador[num] >= maxRepeticion){
             maxRepeticion = contador[num];
             conjuntoModas = [num];
         } else if (contador[num] === maxRepeticion){
             conjuntoModas.push(num);
         }
-        
     }
+
     if (maxRepeticion === 1){
         alert("No hay moda en el arreglo");
-    } else if (conjuntoModas.length == 1){
+    } else if (conjuntoModas.length === 1){
         alert("La moda del arreglo es: " + conjuntoModas[0]);
-    } else if(conjuntoModas.length > 1){
-        alert("Las modas de la serie son: " + conjuntoModas);
+    } else if ((conjuntoModas.length === 2) && (conjuntoModas[0] == conjuntoModas[1])) {
+        var mediaModas = (conjuntoModas[0] + conjuntoModas[1]) / 2;
+        alert ("Hay dos modas adyacentes, la media es:" +  mediaModas);
+    
     } else{ 
-        alert("No hay modas en el arreglo");
+        alert("Las modas de la serie son: " + conjuntoModas);
     }
 
 }
