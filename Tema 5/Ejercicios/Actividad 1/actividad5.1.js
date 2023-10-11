@@ -7,25 +7,35 @@
  * 
  */
 
-function meterValores(){
-    var numArrray = []; // Declaramos array vacío
-    var numIntroducido = 0;
+function meterValores() {
+    var numArray = []; // Declaramos un arreglo vacío
+    var numIntroducido;
     var i = 0;
-    do{ // El bucle se ejecutará hasta que el valor introducido sea no númerico. Se deberán controlar otras cosas dentro de la función
-        numIntroducido = Number(prompt("Introduce el valor " + i + ": \nSi desea dejar de introducir valores escriba cualquier cáracter o cadena"));
-        if (isNaN(numIntroducido) || (numIntroducido==null) || (numIntroducido=="")){
-            break;
+
+    while (true) {
+        numIntroducido = Number(prompt("Introduce el valor " + i + ": \nSi desea dejar de introducir valores, escriba cualquier carácter o cadena"));
+
+        if (isNaN(numIntroducido) || numIntroducido === null || numIntroducido === "") {
+            break; // Salir del bucle si no se ingresó un número
         }
-        numArrray[i] = numIntroducido;
+
+        numArray[i] = numIntroducido;
         i++;
-    }while(true)
-    return numArrray;
+    }
+
+    return numArray;
 }
 
 function mediaArreglo(valores) {
     var arrayAnterior = valores;
     var suma = 0;
     var media = 0;
+
+    if (arrayAnterior.length === 0){ // Si no hay valores en el array, salimos de la función
+        alert("El arreglo está vacío, no se puede calcular la media");
+        return;
+    }
+
     for (var i = 0; i < arrayAnterior.length; i++) {
         suma = suma + valores[i];
     } 
@@ -37,6 +47,12 @@ function rangoArreglo(valores){
     var arrayAnterior = valores;
     var minValor = arrayAnterior[0]; // Hacemos referencia al primer valor del array, para poder realizar las comparaciones
     var maxValor = arrayAnterior[0];
+
+    if (arrayAnterior.length === 0) { // Si no hay valores en el array, salimos de la función
+        alert("El arreglo está vacío, no se puede calcular el rango.");
+        return;
+    }
+
     for(var i=1;i<arrayAnterior.length;i++){
         if (arrayAnterior[i] > maxValor){
             maxValor = arrayAnterior[i];
@@ -50,6 +66,9 @@ function rangoArreglo(valores){
 }
 
 /**
+ * Apuntes de la pizarra
+ * 
+ * Escenarios para la moda
  * Modas
  * 1. No tengo moda
  * 2. Solamente se repite un número con respecto a los demás valores
@@ -65,40 +84,49 @@ function rangoArreglo(valores){
  * }
 */
 
-function modaArreglo(valores){
+function modaArreglo(valores) {
     var arrayAnterior = valores;
-    var conjuntoModas = {} // Se almacenarán aquí los números que se repiten (las modas)
-    var contador = {}; // Contamos cuantas veces se repiten los valores introducidos 
-    var maxRepeticion = 0;
+    var conjuntoModas = {}; // Se almacenarán aquí los números que se repiten (las modas)
+    var contador = {}; // Contamos cuantas veces se repiten los valores introducidos
+    var maxRepeticion = 0; // Máximo de veces que se repiten
+
+    if (arrayAnterior.length === 0) { // Si no hay valores en el array, salimos de la función
+        alert("El arreglo está vacío, no se pueden calcular las modas.");
+        return;
+    }
+   
     for (var i = 0; i < arrayAnterior.length; i++) {
         var num = arrayAnterior[i]; // Valor de i actual
-        if(contador[num]){
+        if (contador[num]) {
             contador[num]++;
         } else {
             contador[num] = 1;
         }
 
-        // Comprobamos la frecuencia de los numeros
-        if (contador[num] >= maxRepeticion){
-            maxRepeticion = contador[num];
-            conjuntoModas = [num];
-        } else if (contador[num] === maxRepeticion){
-            conjuntoModas.push(num);
+        // Comprobamos la frecuencia de los números
+        if (contador[num] >= maxRepeticion) {
+            if (contador[num] > maxRepeticion) {
+                maxRepeticion = contador[num];
+                conjuntoModas = [num];
+            } else if (contador[num] === maxRepeticion) {
+                conjuntoModas.push(num);
+            }
         }
     }
 
-    if (maxRepeticion === 1){
+    // 4 escenarios posibles
+    if (maxRepeticion === 1) { // No hay moda
         alert("No hay moda en el arreglo");
-    } else if (conjuntoModas.length === 1){
+    } else if (conjuntoModas.length === 1) { // Un solo valor será la moda
         alert("La moda del arreglo es: " + conjuntoModas[0]);
-    } else if ((conjuntoModas.length === 2) && (conjuntoModas[0] == conjuntoModas[1])) {
-        var mediaModas = (conjuntoModas[0] + conjuntoModas[1]) / 2;
-        alert ("Hay dos modas adyacentes, la media es:" +  mediaModas);
-    
-    } else{ 
-        alert("Las modas de la serie son: " + conjuntoModas);
+    } else { // Si existen dos modas, y son adyacentes, se hará la media de las modas
+        if (conjuntoModas.length === 2 && conjuntoModas[0] == conjuntoModas[1]-1) { // La unica solución que he podido más o menos implementar es jugar con los indices para sacar el escenario de la "adyacencia"
+            var mediaModas = (conjuntoModas[0] + conjuntoModas[1]) / 2;
+            alert("Hay dos modas adyacentes, la media es: " + mediaModas);
+        } else { // Muestra todas las modas si los valores no son adyacentes 
+            alert("Las modas de la serie son: " + conjuntoModas);
+        }
     }
-
 }
 
 // Esta funciónn será la encargada de ejecutar el programa
