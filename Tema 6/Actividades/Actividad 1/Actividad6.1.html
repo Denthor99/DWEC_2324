@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Actividad 6.1 - Calculo de la mediana</title>
+    <script>
+      /*
+          Enunciado:
+          Calcular de la tarea del tema anterior  (Tarea1 .Tema5 ) , la Mediana, cumpliendo con los requisitos (uso de funciones, no variables globales, etc …)
+          */
+      function meterValores() {
+        var numArray = []; // Declaramos un arreglo vacío
+        var numIntroducido;
+        var i = 0;
+
+        while (true) {
+          numIntroducido = Number(
+            prompt(
+              "Introduce el valor " +
+                i +
+                ": \nSi desea dejar de introducir valores, escriba cualquier carácter o cadena"
+            )
+          );
+
+          if (
+            isNaN(numIntroducido) ||
+            numIntroducido === null ||
+            numIntroducido === ""
+          ) {
+            break; // Salir del bucle si no se ingresó un número
+          }
+
+          numArray[i] = numIntroducido;
+          i++;
+        }
+
+        return numArray;
+      }
+
+      function calculoMediana(valores) {
+        var arrayOriginal = valores;
+        if (arrayOriginal.length === 0) {
+          alert("El arreglo está vacío, no se puede calcular la mediana.");
+          return;
+        }
+
+        var arrayOrdenado = arrayOriginal.sort(function (a, b) {
+          return a - b;
+        });
+
+        var mediana = 0;
+        var mitadArray = Math.floor(arrayOrdenado.length / 2);
+        if (arrayOrdenado.length % 2 != 0) {
+          mediana = arrayOrdenado[mitadArray];
+          alert("La mediana del array es de " + mediana);
+        } else {
+          mediana =
+            (arrayOrdenado[mitadArray]) + (arrayOrdenado[mitadArray + 1]) / 2;
+          alert("La media de la mediana del array es " + mediana);
+        }
+      }
+
+      // Esta función realizará las operaciones necesarias para el funcionamiento de la actividad (coger valores y calcular la mediana)
+      function operaciones() {
+        var valores = 0;
+        if (valores == 0) {
+          valores = meterValores();
+        }
+        calculoMediana(valores);
+      }
+    </script>
+  </head>
+  <body onload="operaciones();"></body>
+</html>
