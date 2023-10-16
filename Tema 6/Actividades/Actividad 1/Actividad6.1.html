@@ -9,6 +9,8 @@
           Enunciado:
           Calcular de la tarea del tema anterior  (Tarea1 .Tema5 ) , la Mediana, cumpliendo con los requisitos (uso de funciones, no variables globales, etc …)
           */
+
+      // Función encargada de recoger los valores del array. Función sacada de los ejercicios del tema anterior
       function meterValores() {
         var numArray = []; // Declaramos un arreglo vacío
         var numIntroducido;
@@ -38,6 +40,7 @@
         return numArray;
       }
 
+      // Funcion que nos indicará el elemento ubicado en la mitad del array (o nos calculará la media de los elementos medios)
       function calculoMediana(valores) {
         var arrayOriginal = valores;
         if (arrayOriginal.length === 0) {
@@ -45,18 +48,23 @@
           return;
         }
 
+        // Usaremos la función .sort() para ordenar el array. Deberemos usar la sintaxis especifica para la ordenación de númericoss
         var arrayOrdenado = arrayOriginal.sort(function (a, b) {
           return a - b;
         });
 
+        // Declaramos dos variables: (mediana: almacenará el valor almacenado en un índice del array/media de indices; 
+        //mitadArray: almacenará la posición del elmento ubicado en mitad del array)
         var mediana = 0;
-        var mitadArray = Math.floor(arrayOrdenado.length / 2);
-        if (arrayOrdenado.length % 2 != 0) {
+        var mitadArray = Math.floor((arrayOrdenado.length-1) / 2);
+
+        // Dos escenarios
+        if (arrayOrdenado.length % 2 != 0) { // Al tener un array cuyo tamaño sea un número impar, tendremos un elemento en el centro del array.
           mediana = arrayOrdenado[mitadArray];
           alert("La mediana del array es de " + mediana);
-        } else {
+        } else { // Al ser par, deberemos calcular la media de los dos elementos que estarán en el centro del array.
           mediana =
-            (arrayOrdenado[mitadArray]) + (arrayOrdenado[mitadArray + 1]) / 2;
+            ((arrayOrdenado[mitadArray]) + (arrayOrdenado[mitadArray + 1])) / 2;
           alert("La media de la mediana del array es " + mediana);
         }
       }
