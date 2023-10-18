@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Actividad 6.1a</title>
+    <script>
+      function introducirValores() {
+        // Esta función deberá permitir al usuario introducir una serie de valores
+        var matriz = [];
+        var numIntroducido = 0;
+        var i = 0;
+        var j = 0;
+        while (true) {
+          numIntroducido =
+            prompt(
+              "Introduce el valor " +
+                i +
+                ": \nSi desea insertar otra fila, pulse n u N, para salir pulsa E u X"
+            )
+          ;
+          if (numIntroducido === "n") {
+            alert("Oleeee");
+          } else if (
+            numIntroducido === "E" ||
+            numIntroducido === "X"
+          ) {
+            break;
+          }
+          i++;
+        }
+      }
+      function separarArrays(valores) {
+        // Cargamos la matriz
+        // Declaramos dos arrays vacios
+        // Realizaremos la iteración en la matriz.
+        // Si
+      }
+
+      function ejecucion() {
+        var valores = 0;
+        if (valores == 0) {
+          valores = introducirValores();
+        }
+      }
+    </script>
+  </head>
+  <body onload="ejecucion();"></body>
+</html>
