@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen anterior</title>
+    <script>
+        function introducirValores() {
+        var matrizVacia = []; // Array vacio, será la matriz del ejercicio
+        var zonaActual = []; // Array vacio, será el array que iremos introduciendo en la matriz. Donde iremos añadiendo los valores
+        var numIntroducido = 0; // Variable usada para almacenar el valor dado por el prompt
+        var countTemperatura = 1;
+        var countZonas = 1; // Nos indicara las filas que ya han sido introducidas
+
+        while (true) {
+          numIntroducido = prompt("Introduce temporatura: " + countTemperatura +". Zona: " + countZonas + ": (N u n para añadir nueva zona/E o X para calcular media temperaturas)");
+
+          if (numIntroducido === "E" || numIntroducido === "X" || numIntroducido === null || numIntroducido === 0) { // Salir del programa
+            if (zonaActual.length > 0) {
+              matrizVacia.push(zonaActual); // Introducimos el array filaActual dentro de la matriz antes de salir del bucle
+            }
+            break;
+          } else if (numIntroducido === "n" || numIntroducido === "N") { // Nueva fila
+            // La fila actual se introduce dentro de la matriz.
+            matrizVacia.push(zonaActual);
+            // Como deberemos introducir nuevos valores, vaciaremos el array
+            zonaActual = [];
+            // Incrementa el contador de filas(arrays).
+            countZonas++;
+            countTemperatura = 1;
+          } else {
+            // Convierte el valor introducido a un número y agrégalo a la fila actual.
+            numIntroducido = Number(numIntroducido);
+            zonaActual.push(numIntroducido);
+            countTemperatura++;
+          }
+        }
+
+        return matrizVacia;
+      }
+
+      function calcularMedias(valores){
+        var matrizAnterior = valores;
+        var mediaTotal = 0;
+        var contador = 0;
+        // Comprobación de errores(matriz vacia)
+        if (matrizAnterior === null || matrizAnterior.length === 0) {
+          alert("No se ha añadido contenido a la matriz");
+          return;
+        }
+        // Iteramos dentro de la matriz
+        for (var i = 0; i < matrizAnterior.length; i++){
+            for (var j = 0; j < matrizAnterior[i].length; j++){
+                mediaTotal += matrizAnterior[i][j];
+                contador++;
+            }
+        }
+        mediaTotal = mediaTotal / contador;
+        alert("La media de todas las temporaturas de la zona es de " + mediaTotal.toFixed(2));
+
+      }
+      function ejecucion() {
+        var valores = 0;
+        if (valores == 0) {
+          valores = introducirValores();
+        }
+        calcularMedias(valores);
+      }
+    </script>
+</head>
+<body onload="ejecucion();">
+    
+</body>
+</html>

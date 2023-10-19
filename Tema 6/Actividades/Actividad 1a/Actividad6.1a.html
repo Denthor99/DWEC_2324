@@ -6,28 +6,26 @@
     <title>Actividad 6.1a</title>
     <script>
       function introducirValores() {
-        var matrizVacia = [];
-        var filaActual = [];
-        var numIntroducido;
-        var i = 0;
+        var matrizVacia = []; // Array vacio, será la matriz del ejercicio
+        var filaActual = []; // Array vacio, será el array que iremos introduciendo en la matriz. Donde iremos añadiendo los valores
+        var numIntroducido = 0; // Variable usada para almacenar el valor dado por el prompt
+        var countFilas = 0; // Nos indicara las filas que ya han sido introducidas
 
         while (true) {
-          numIntroducido = prompt(
-            "Introduce valores. Filas actuales: " +
-              i +
-              ": (N u n para nueva fila/E o X para salir)"
-          );
+          numIntroducido = prompt("Introduce valores. Filas actuales: " + countFilas + ": (N u n para nueva fila/E o X para salir)");
 
-          if (numIntroducido === "E" || numIntroducido === "X") {
+          if (numIntroducido === "E" || numIntroducido === "X" || numIntroducido === null || numIntroducido === 0) { // Salir del programa
+            if (filaActual.length > 0) {
+              matrizVacia.push(filaActual); // Introducimos el array filaActual dentro de la matriz antes de salir del bucle
+            }
             break;
-          } else if (numIntroducido === "n" || numIntroducido === "N") {
+          } else if (numIntroducido === "n" || numIntroducido === "N") { // Nueva fila
             // La fila actual se introduce dentro de la matriz.
             matrizVacia.push(filaActual);
             // Como deberemos introducir nuevos valores, vaciaremos el array
             filaActual = [];
-
-            // Incrementa el contador de filas.
-            i++;
+            // Incrementa el contador de filas(arrays).
+            countFilas++;
           } else {
             // Convierte el valor introducido a un número y agrégalo a la fila actual.
             numIntroducido = Number(numIntroducido);
@@ -35,51 +33,46 @@
           }
         }
 
-        // Este condicional lo usamos en caso que salgamos de la función, para poder guardar la última fila
-        if (filaActual.length > 0) {
-          matrizVacia.push(filaActual);
-        }
-
         return matrizVacia;
       }
+      // Funcion que separará los valores
       function separarArrays(valores) {
         // Cargamos la matriz
         var matrizAnterior = valores;
+
         // Declaramos dos arrays vacios
         var arrayPar = [];
         var arrayImpar = [];
 
-          // Comprobación de errores
-          if ((matrizAnterior === null) || (matrizAnterior.length ===0)) {
-            alert("No se ha añadido contenido a la matriz");
-            return;
-          }
+        // Comprobación de errores(matriz vacia)
+        if (matrizAnterior === null || matrizAnterior.length === 0) {
+          alert("No se ha añadido contenido a la matriz");
+          return;
+        }
 
         // Realizaremos la iteración en la matriz.
         for (var i = 0; i < matrizAnterior.length; i++) {
           for (var j = 0; j < matrizAnterior[i].length; j++) {
             if (matrizAnterior[i][j] % 2 == 0) {
+              // Si es par, introducimos el valor de dicha posición en el array correspondiente
               arrayPar.push(matrizAnterior[i][j]);
             } else {
-              arrayImpar.push(matrizAnterior[i][j]);
+              arrayImpar.push(matrizAnterior[i][j]); // Si es impar, se introduce el valor en el array correspondiente
             }
           }
         }
         // Una vez se haya completado la iteración, ordenaremos los array
-        arrayPar.sort(function (a, b) {
-          return a - b;
-        });
-        arrayImpar.sort(function (a, b) {
-          return a - b;
-        });
+        arrayPar.sort(function (a, b) { return a - b; });
+        arrayImpar.sort(function (a, b) { return a - b; });
 
-        // Ahora mostramos el contenido usando un alert
-        alert(
-          "Numeros pares: " +
-            arrayPar.toString() +
-            "\nNumeros impares: " +
-            arrayImpar.toString()
-        );
+        // Ahora mostramos el contenido usando un alert. Usaremos un condicional
+        if (arrayPar.length === 0){
+          alert("Numeros pares: No hay" + "\nNumeros impares: " + arrayImpar.toString());
+        } else if (arrayImpar.length === 0){
+          alert("Numeros pares: " + arrayPar.toString() + "\nNumeros impares: No hay");
+        } else{
+          alert("Numeros pares: " + arrayPar.toString() + "\nNumeros impares: " + arrayImpar.toString());
+        }
       }
 
       function ejecucion() {
