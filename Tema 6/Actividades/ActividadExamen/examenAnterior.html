@@ -7,7 +7,7 @@
     <script>
         function introducirValores() {
         var matrizVacia = []; // Array vacio, será la matriz del ejercicio
-        var zonaActual = []; // Array vacio, será el array que iremos introduciendo en la matriz. Donde iremos añadiendo los valores
+        var zonaActualz = []; // Array vacio, será el array que iremos introduciendo en la matriz. Donde iremos añadiendo los valores
         var numIntroducido = 0; // Variable usada para almacenar el valor dado por el prompt
         var countTemperatura = 1;
         var countZonas = 1; // Nos indicara las filas que ya han sido introducidas
@@ -42,12 +42,7 @@
       function calcularMedias(valores){
         var matrizAnterior = valores;
         var mediaTotal = 0;
-        var mediaZona = 0;
-        var zonaString ="";
         var contador = 0;
-        // Creamos una funcion de tipo flecha para usar el metodo reduce
-        const sumaZona = mediaZona => mediaZona.reduce((a,b) => a+b,0);
-
         // Comprobación de errores(matriz vacia)
         if (matrizAnterior === null || matrizAnterior.length === 0) {
           alert("No se ha añadido contenido a la matriz");
@@ -55,12 +50,7 @@
         }
         // Iteramos dentro de la matriz
         for (var i = 0; i < matrizAnterior.length; i++){
-          // Media zona
-          mediaZona = (sumaZona(matrizAnterior[i])/matrizAnterior[i].length);
-          alert("Temperatura media en la zona " + (i+1) + " es de " + mediaZona.toFixed(2) + "º");
             for (var j = 0; j < matrizAnterior[i].length; j++){
-
-                // Media global
                 mediaTotal += matrizAnterior[i][j];
                 contador++;
             }

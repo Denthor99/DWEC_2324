@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXAMEN I</title>
+    <script>
+        function introducirValores() {
+        var matrizVacia = []; // Array vacio, será la matriz del ejercicio
+        var dependenciaActual = []; // Array vacio, será el array que iremos introduciendo en la matriz. Donde iremos añadiendo los valores
+        var numIntroducido = 0; // Variable usada para almacenar el valor dado por el prompt
+        var countTomas = 1;
+        var countDependencias = 1; // Nos indicara las filas que ya han sido introducidas
+
+        while (true) {
+          numIntroducido = prompt("Introduce toma: " + countTomas +". Dependencia: " + countDependencias + ": (N u n para añadir nueva dependencia/E o X para salir)");
+
+          if (numIntroducido === "E" || numIntroducido === "X" || numIntroducido === null || numIntroducido === 0) { // Salir del programa
+            if (dependenciaActual.length > 0) {
+              matrizVacia.push(dependenciaActual); // Introducimos el array filaActual dentro de la matriz antes de salir del bucle
+            }
+            return matrizVacia;
+          } else if (numIntroducido === "n" || numIntroducido === "N") { // Nueva fila
+            // La fila actual se introduce dentro de la matriz.
+            matrizVacia.push(dependenciaActual);
+            // Como deberemos introducir nuevos valores, vaciaremos el array
+            dependenciaActual = [];
+            // Incrementa el contador de filas(arrays).
+            countDependencias++;
+            countTomas = 1;
+          } else {
+            // Convierte el valor introducido a un número y agrégalo a la fila actual.
+            numIntroducido = Number(numIntroducido);
+            dependenciaActual.push(numIntroducido);
+            countTomas++;
+          }
+        }
+      }
+
+      // Funcion que calcula el maximo de cada dependencia
+      function maximoDependencias(valores){
+        var matrizAnterior = valores; // Introducimos la matriz del ejercicio anterior
+        var maxDependencia = []; // Introducimos los valores que representarán cada dependencia
+        var maxArray = 0; // Introducimos el valor máximo de cada array. Se le hará despues el push correspondiente
+        var posicionFinal = 0 ; // Indice del último elemento de la matriz
+        var arrayOrdenado = 0;
+        var resultado = "Valores maximos por dependencia= ";
+        var contador = 1;
+        if (matrizAnterior.length ===0){
+            alert("Matriz vacia");
+            return maxDependencia;
+        }
+
+        // Deberemos iterar en la matriz
+        for (var i = 0; i<matrizAnterior.length;i++){
+            // Ordenamos el array 
+            arrayOrdenado=matrizAnterior[i].sort(function(a,b){return a-b});
+            // Variable intermedia para sacar el valor final de cada array (será el mayor)
+            posicionFinal=(arrayOrdenado.length-1)
+            maxArray=arrayOrdenado[posicionFinal];
+            resultado+="Dependencia "+contador + "= "+ maxArray+".";
+            contador++;
+            maxDependencia.push(maxArray);
+
+        }
+        alert(resultado);
+        return maxDependencia;
+
+      }
+
+      // Funcion que muestra si ha dependencias con valores máximos a 2 KW/H
+      function vatiosSobrepasados(maximos){
+        var maximosAnteriores = maximos; // Cargamos el array dado por la funcion anterior (maximo de las dependencias)
+        var resultado = "Dependencias con valores maximos= "; // Resultado
+        var contador = 1; // Indica la dependencia
+
+        if (maximosAnteriores.length === 0){
+            alert("array vacio");
+            return;
+        }
+
+        for (var i = 0; i<maximosAnteriores.length;i++){
+            if (maximosAnteriores[i]>2){
+                resultado += "Dependencia "+contador + "= "+ maximosAnteriores[i];
+            }
+            contador++;
+        }
+        alert(resultado)
+
+
+      }
+      
+      // Funcion que contendrá la ejecucion de programa
+      function ejecucionPrograma(){
+        var valores = 0;
+        var maximos = 0;
+        if (valores === 0){
+            valores=introducirValores();
+        }
+        if (maximos ===0){
+            maximos=maximoDependencias(valores);
+        }
+        vatiosSobrepasados(maximos);
+    }
+    </script>
+</head>
+<body onload="ejecucionPrograma();">
+    
+</body>
+</html>
