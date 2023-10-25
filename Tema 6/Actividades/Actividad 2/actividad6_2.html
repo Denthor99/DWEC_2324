@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de la compra</title>
+    <script>
+        function verCesta(arrayArticulos){
+            // Dar formato al contenido de un array de objetos
+        }
+        function insertarArtículo(arrayArticulos){
+            // Definimos las propiedades del objeto
+            var articulo = {
+                cod : generarId(arrayArticulos),
+                nombre : prompt("Introduce el nombre del artículo"),
+                cantidad : Number(prompt("Introduce la cantidad de artículos")),
+                precio : Number(prompt("Introduce el precio (unidad única)"))
+            }
+            arrayArticulos.push(articulo);
+        }
+
+        function generarId(arrayArticulos){
+            // Declaramos variable
+            $num = (arrayArticulos.lenght)+1;
+            return $num;
+            
+        }
+
+        function vaciarCesta(arrayArtículos){
+
+        
+        }
+
+
+        function menu(){
+            var numOpcion = 0;
+            var bucle = true;
+            artículos = [];
+
+            while (bucle){
+                var numOpcion = Number(prompt("\tCesta de la compra\n1. Ver cesta\n2. Insertar un  artículo\n3. Borrar un artículo\n4. Vaciar cesta\n5. Salir"));
+                switch (numOpcion) {
+                    case 1:
+                        alert("Ver cesta");
+                        break;
+                    case 2:
+                        alert("Inserta un articulo");
+                        break;
+                    case 3:
+                        alert("Borrar un artículo");
+                        break;
+                    case 4:
+                        alert("Vaciar cesta");
+                        break;
+                    case 5:
+                        alert("Salir");
+                        bucle = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="menu();">
+    
+</body>
+</html>
