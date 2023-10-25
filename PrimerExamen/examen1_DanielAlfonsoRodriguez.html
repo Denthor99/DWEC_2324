@@ -28,7 +28,9 @@
             // Incrementa el contador de filas(arrays).
             countDependencias++;
             countTomas = 1;
-          } else {
+          } else if (Number(numIntroducido) < 0){
+            alert("Introduce valor adecuado");
+          }else {
             // Convierte el valor introducido a un número y agrégalo a la fila actual.
             numIntroducido = Number(numIntroducido);
             dependenciaActual.push(numIntroducido);
