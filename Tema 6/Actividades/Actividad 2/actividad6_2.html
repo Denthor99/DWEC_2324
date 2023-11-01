@@ -1,69 +1,136 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lista de la compra</title>
     <script>
-        function verCesta(arrayArticulos){
-            // Dar formato al contenido de un array de objetos
-        }
-        function insertarArtículo(arrayArticulos){
-            // Definimos las propiedades del objeto
-            var articulo = {
-                cod : generarId(arrayArticulos),
-                nombre : prompt("Introduce el nombre del artículo"),
-                cantidad : Number(prompt("Introduce la cantidad de artículos")),
-                precio : Number(prompt("Introduce el precio (unidad única)"))
-            }
-            arrayArticulos.push(articulo);
+      function verCesta(arrayArticulos) {
+        // Condicional para comprobar si el array está vacío
+        if (arrayArticulos.length === 0){
+            alert("Cesta vacia");
+            return;
         }
 
-        function generarId(arrayArticulos){
-            // Declaramos variable
-            $num = (arrayArticulos.lenght)+1;
-            return $num;
+        // Defino una variable tipo string que nos servirá de base para la visualización de los elementos
+        var resultado = "Cod    Nombre     cantidad     precio    subtotal\n";
+
+        // Defino una variable y la inicializo. Donde se almacenará el total de la cesta
+        var totalCessta = 0;
+
+        for (let i = 0; i < arrayArticulos.length; i++) {
+          let propiedades = arrayArticulos[i];
+          resultado += `${propiedades.cod}    ${propiedades.nombre}    ${
+            propiedades.cantidad
+          }      ${propiedades.precio}      ${
+            propiedades.cantidad * propiedades.precio
+          }\n`;
+
+          totalCessta +=  propiedades.cantidad * propiedades.precio;
+        }
+        resultado += '                  TOTAL: '+totalCessta;
+        alert(resultado);
+      }
+
+      function insertarArtículo(arrayArticulos,id) {
+        // Definimos las propiedades del objeto
+        var articulo = {
+          cod: id,
+          nombre: prompt("Introduce el nombre del artículo"),
+          cantidad: Number(prompt("Introduce la cantidad de artículos")),
+          precio: Number(prompt("Introduce el precio (unidad única)")),
+        };
+
+        // Añadimos el objeto generado al array
+        arrayArticulos.push(articulo);
+
+        // Devolvemos el array con el objeto creado
+        return arrayArticulos;
+      }
+
+    //   No necesaria realmente
+    //   function generarId(num) {
+    //     return num + 1;
+    //   }
+
+      function borrarArticulo (arrayArticulos){
+
+        // Comprobaremos primero si el array está vacío
+        if (arrayArticulos.length === 0){
+            alert("No hay ningún artículo en la cesta");
+            return;
+        }
+
+        // Prompt que pedirá al usuario un articulo en concreto
+        var articuloParaBorrar = prompt("Introduzca el nombre del artículo a borrar");
+
+        // Deberemos iterar dentro del array de objetos. Buscaremos en la nombre de cada objeto para poder borrarlo
+        for (let i = 0; i< arrayArticulos.length; i++) {
+            let propiedades = arrayArticulos[i];
+            if (propiedades.nombre === articuloParaBorrar){
+                arrayArticulos.splice(i,1); // Eliminamos el objeto en cuestión
+                alert("El artículo "+articuloParaBorrar+" ha sido borrado exitosamente");
+                return;
+            }
             
         }
-
-        function vaciarCesta(arrayArtículos){
-
         
+        // Si no existe el artículo, lanzamos un mensaje
+        alert("Artículo no encontrado, revisa la cesta!");
+
+      }
+
+      function vaciarCesta(arrayArticulos) {
+        if (arrayArticulos.length === 0){
+            alert("La cesta fue vacíada o todavía no tiene contenido");
+            return;
+        } else {
+            alert("Cesta vacíada correctamente!");
+            arrayArticulos.length = 0; // Probar con algún metodo de array como splice
         }
+      }
 
+      function menu() {
+        var numOpcion = 0;
+        var bucle = true;
+        var articulos = [];
+        var id = 1;
 
-        function menu(){
-            var numOpcion = 0;
-            var bucle = true;
-            artículos = [];
-
-            while (bucle){
-                var numOpcion = Number(prompt("\tCesta de la compra\n1. Ver cesta\n2. Insertar un  artículo\n3. Borrar un artículo\n4. Vaciar cesta\n5. Salir"));
-                switch (numOpcion) {
-                    case 1:
-                        alert("Ver cesta");
-                        break;
-                    case 2:
-                        alert("Inserta un articulo");
-                        break;
-                    case 3:
-                        alert("Borrar un artículo");
-                        break;
-                    case 4:
-                        alert("Vaciar cesta");
-                        break;
-                    case 5:
-                        alert("Salir");
-                        bucle = false;
-                        break;
-                    default:
-                        break;
-                }
-            }
+        while (bucle) {
+          var numOpcion = Number(
+            prompt(
+              "                                         Cesta de la compra\n1. Ver cesta\n2. Insertar un  artículo\n3. Borrar un artículo\n4. Vaciar cesta\n5. Salir"
+            )
+          );
+          switch (numOpcion) {
+            case 1:
+              alert("Ver cesta");
+              verCesta(articulos);
+              break;
+            case 2:
+              alert("Inserta un articulo");
+              insertarArtículo(articulos,id);
+              id++;
+              break;
+            case 3:
+              alert("Borrar un artículo");
+              borrarArticulo(articulos);
+              break;
+            case 4:
+              alert("Vaciar cesta");
+              vaciarCesta(articulos);
+              break;
+            case 5:
+              alert("Saliendo de la cesta....");
+              bucle = false;
+              break;
+            default:
+                alert("Opción o función no permitida/implementada");
+              break;
+          }
         }
+      }
     </script>
-</head>
-<body onload="menu();">
-    
-</body>
+  </head>
+  <body onload="menu();"></body>
 </html>
