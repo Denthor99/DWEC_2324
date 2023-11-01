@@ -6,31 +6,28 @@
     <title>Lista de la compra</title>
     <script>
       function verCesta(arrayArticulos) {
-        // Condicional para comprobar si el array está vacío
-        if (arrayArticulos.length === 0){
-            alert("Cesta vacia");
-            return;
-        }
-
-        // Defino una variable tipo string que nos servirá de base para la visualización de los elementos
-        var resultado = "Cod    Nombre     cantidad     precio    subtotal\n";
-
-        // Defino una variable y la inicializo. Donde se almacenará el total de la cesta
-        var totalCessta = 0;
-
-        for (let i = 0; i < arrayArticulos.length; i++) {
-          let propiedades = arrayArticulos[i];
-          resultado += `${propiedades.cod}    ${propiedades.nombre}    ${
-            propiedades.cantidad
-          }      ${propiedades.precio}      ${
-            propiedades.cantidad * propiedades.precio
-          }\n`;
-
-          totalCessta +=  propiedades.cantidad * propiedades.precio;
-        }
-        resultado += '                  TOTAL: '+totalCessta;
-        alert(resultado);
+      // Condicional para comprobar si el array está vacío
+      if (arrayArticulos.length === 0) {
+          alert("Cesta vacía");
+          return;
       }
+
+      // Defino una variable tipo string que nos servirá de base para la visualización de los elementos
+      var resultado = "Cod  Nombre          Cantidad  Precio  Subtotal\n";
+
+      // Defino una variable y la inicializo. Donde se almacenará el total de la cesta
+      var totalCesta = 0;
+
+      for (let i = 0; i < arrayArticulos.length; i++) {
+          let propiedades = arrayArticulos[i];
+          resultado += `${propiedades.cod}    ${propiedades.nombre}          ${propiedades.cantidad}       ${propiedades.precio}       ${propiedades.cantidad * propiedades.precio}€\n`;
+
+          totalCesta += propiedades.cantidad * propiedades.precio;
+      }
+      resultado += '\nTOTAL: ' + totalCesta + '€';
+      alert(resultado);
+    }
+
 
       function insertarArtículo(arrayArticulos,id) {
         // Definimos las propiedades del objeto
@@ -91,7 +88,6 @@
       }
 
       function menu() {
-        var numOpcion = 0;
         var bucle = true;
         var articulos = [];
         var id = 1;
@@ -104,20 +100,16 @@
           );
           switch (numOpcion) {
             case 1:
-              alert("Ver cesta");
               verCesta(articulos);
               break;
             case 2:
-              alert("Inserta un articulo");
               insertarArtículo(articulos,id);
               id++;
               break;
             case 3:
-              alert("Borrar un artículo");
               borrarArticulo(articulos);
               break;
             case 4:
-              alert("Vaciar cesta");
               vaciarCesta(articulos);
               break;
             case 5:
