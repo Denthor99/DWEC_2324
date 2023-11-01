@@ -13,18 +13,18 @@
       }
 
       // Defino una variable tipo string que nos servirá de base para la visualización de los elementos
-      var resultado = "Cod  Nombre          Cantidad  Precio  Subtotal\n";
+      var resultado = "Cod  Nombre          Precio  Cantidad  Subtotal\n";
 
       // Defino una variable y la inicializo. Donde se almacenará el total de la cesta
       var totalCesta = 0;
 
       for (let i = 0; i < arrayArticulos.length; i++) {
           let propiedades = arrayArticulos[i];
-          resultado += `${propiedades.cod}    ${propiedades.nombre}          ${propiedades.cantidad}       ${propiedades.precio}       ${propiedades.cantidad * propiedades.precio}€\n`;
+          resultado += `${propiedades.cod}    ${propiedades.nombre}          ${propiedades.precio.toFixed(2)}       ${propiedades.cantidad}       ${(propiedades.cantidad * propiedades.precio).toFixed(2)}€\n`;
 
           totalCesta += propiedades.cantidad * propiedades.precio;
       }
-      resultado += '\nTOTAL: ' + totalCesta + '€';
+      resultado += '                                                  TOTAL: ' + totalCesta.toFixed(2) + '€';
       alert(resultado);
     }
 
