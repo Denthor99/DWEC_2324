@@ -14,16 +14,18 @@
 
       // Defino una variable tipo string que nos servirá de base para la visualización de los elementos
       var resultado = "Cod  Nombre          Precio  Cantidad  Subtotal\n";
+      resultado += "----------------------------------------------------\n";
 
       // Defino una variable y la inicializo. Donde se almacenará el total de la cesta
       var totalCesta = 0;
 
       for (let i = 0; i < arrayArticulos.length; i++) {
           let propiedades = arrayArticulos[i];
-          resultado += `${propiedades.cod}    ${propiedades.nombre}          ${propiedades.precio.toFixed(2)}       ${propiedades.cantidad}       ${(propiedades.cantidad * propiedades.precio).toFixed(2)}€\n`;
+          resultado += `${propiedades.cod}          ${propiedades.nombre}               ${propiedades.precio.toFixed(2)}       ${propiedades.cantidad}        ${(propiedades.cantidad * propiedades.precio).toFixed(2)}€\n`;
 
           totalCesta += propiedades.cantidad * propiedades.precio;
       }
+      resultado += "----------------------------------------------------\n";
       resultado += '                                                  TOTAL: ' + totalCesta.toFixed(2) + '€';
       alert(resultado);
     }
@@ -34,15 +36,15 @@
         var articulo = {
           cod: id,
           nombre: prompt("Introduce el nombre del artículo"),
-          cantidad: Number(prompt("Introduce la cantidad de artículos")),
           precio: Number(prompt("Introduce el precio (unidad única)")),
+          cantidad: Number(prompt("Introduce la cantidad de artículos"))
         };
 
         // Añadimos el objeto generado al array
         arrayArticulos.push(articulo);
 
-        // Devolvemos el array con el objeto creado
-        return arrayArticulos;
+        // Devolvemos el array con el objeto creado. Al pasar el array por referencia, no es necesario designar un return
+        //return arrayArticulos;
       }
 
     //   No necesaria realmente
@@ -59,12 +61,12 @@
         }
 
         // Prompt que pedirá al usuario un articulo en concreto
-        var articuloParaBorrar = prompt("Introduzca el nombre del artículo a borrar");
+        var articuloParaBorrar = Number(prompt("Introduzca el código del artículo a borrar"));
 
         // Deberemos iterar dentro del array de objetos. Buscaremos en la nombre de cada objeto para poder borrarlo
         for (let i = 0; i< arrayArticulos.length; i++) {
             let propiedades = arrayArticulos[i];
-            if (propiedades.nombre === articuloParaBorrar){
+            if (propiedades.cod === articuloParaBorrar){
                 arrayArticulos.splice(i,1); // Eliminamos el objeto en cuestión
                 alert("El artículo "+articuloParaBorrar+" ha sido borrado exitosamente");
                 return;
