@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarea 3b - Tema 6 (Parte C)</title>
+    <script>
+      // Definimos por ahora dos clases: articulo y la propia cesta
+      class Articulo {
+        #cod;
+        #nombre;
+        #cantidad;
+        #precio;
+        constructor(cod, nombre, cantidad, precio) {
+          this.#cod = cod;
+          this.#nombre = nombre;
+          this.#cantidad = cantidad;
+          this.#precio = precio;
+        }
+        articulo() {
+          return {
+            cod: this.#cod,
+            nombre:this.#nombre,
+            cantidad:this.#cantidad,
+            precio:this.#precio
+          }
+        }
+      }
+
+      class Cesta {
+        #articulos = [];
+        constructor(articulos) {
+          this.#articulos = articulos;
+        }
+        articulos() {
+          return this.#articulos;
+        }
+
+        verCesta() {
+
+          // Condicional para comprobar si el array está vacío
+          if (this.#articulos.length === 0) {
+            alert("Cesta vacía");
+            return;
+          }
+
+          // Defino una variable tipo string que nos servirá de base para la visualización de los elementos
+          var resultado = "Cod  Nombre          Precio  Cantidad  Subtotal\n";
+          resultado += "----------------------------------------------------\n";
+
+          // Defino una variable y la inicializo. Donde se almacenará el total de la cesta
+          var totalCesta = 0;
+
+          for (let i = 0; i < this.#articulos.length; i++) {
+            let propiedades = this.#articulos[i].articulo();
+            resultado += `${propiedades.cod}          ${
+              propiedades.nombre
+            }               ${propiedades.precio.toFixed(2)}       ${
+              propiedades.cantidad
+            }        ${(propiedades.cantidad * propiedades.precio).toFixed(
+              2
+            )}€\n`;
+
+            totalCesta += propiedades.cantidad * propiedades.precio;
+          }
+          resultado += "----------------------------------------------------\n";
+          resultado +=
+            "                                                  TOTAL: " +
+            totalCesta.toFixed(2) +
+            "€";
+          alert(resultado);
+        }
+
+        insertarArticulo(id) {
+          let cod = id;
+          let nombre = prompt("Introduce el nombre del articulo");
+          let cantidad = Number(
+            prompt("Introduce el número de artículos a introducir")
+          );
+          let precio = Number(prompt("Introduce el precio (de cada artículo)"));
+
+          let articulo = new Articulo(cod, nombre, cantidad, precio);
+
+          this.#articulos.push(articulo);
+        }
+
+        borrarArticulo() {
+          // Comprobaremos primero si el array está vacío
+          if (this.#articulos.length === 0) {
+            alert("No hay ningún artículo en la cesta");
+            return;
+          }
+
+          // Prompt que pedirá al usuario un articulo en concreto
+          var articuloParaBorrar = Number(
+            prompt("Introduzca el código del artículo a borrar")
+          );
+
+          // Deberemos iterar dentro del array de objetos. Buscaremos en la nombre de cada objeto para poder borrarlo
+          for (let i = 0; i < this.#articulos.length; i++) {
+            let propiedades = this.#articulos[i];
+            if (propiedades.cod === articuloParaBorrar) {
+              this.#articulos.splice(i, 1); // Eliminamos el objeto en cuestión
+              alert(
+                "El artículo " +
+                  articuloParaBorrar +
+                  " ha sido borrado exitosamente"
+              );
+              return;
+            }
+          }
+
+          // Si no existe el artículo, lanzamos un mensaje
+          alert("Artículo no encontrado, revisa la cesta!");
+        }
+
+        vaciarCesta() {
+          if (this.#articulos.length === 0) {
+            alert(
+              "La cesta fue vaciada anteriormente o todavía no hay contenido"
+            );
+            return;
+          } else {
+            alert("Cesta vacíada correctamente");
+            this.#articulos.length = 0;
+          }
+        }
+      }
+
+      function menu() {
+        var bucle = true;
+        var articulos = [];
+        var cesta = new Cesta(articulos);
+        var id = 1;
+
+        while (bucle) {
+          var numOpcion = Number(
+            prompt(
+              "                                         Cesta de la compra\n1. Ver cesta\n2. Insertar un  artículo\n3. Borrar un artículo\n4. Vaciar cesta\n5. Salir"
+            )
+          );
+          switch (numOpcion) {
+            case 1:
+              cesta.verCesta();
+              break;
+            case 2:
+              cesta.insertarArticulo(id);
+              id++;
+              break;
+            case 3:
+              cesta.borrarArticulo();
+              break;
+            case 4:
+              cesta.vaciarCesta();
+              break;
+            case 5:
+              alert("Saliendo de la cesta....");
+              bucle = false;
+              break;
+            default:
+              alert("Opción o función no permitida/implementada");
+              break;
+          }
+        }
+      }
+    </script>
+  </head>
+  <body onload="menu();"></body>
+</html>

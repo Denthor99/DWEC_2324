@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea 3a - Tema 6 (Parte C)</title>
+    <script>
+        class Empleado{
+            #edad;
+            constructor(nombre,apellido,edad){
+                this.nombre=nombre;
+                this.apellido=apellido;
+                this.#edad=edad;
+            }
+            muestra(){return this.nombre + " " +this.apellido + " "+this.#edad};
+
+        }
+
+        class Profesor extends Empleado{
+            cargo;
+            constructor(nombre,apellido,edad,cargo){
+                super(nombre,apellido,edad);
+                this.cargo=cargo;
+            }
+            muestraCargo(){return this.cargo};
+        }
+
+        // Instanciamos los objetos
+        var profesor1 = new Profesor("José María","Revilla",38,"Jefe de Estudio");
+        alert(profesor1.muestra() + " "+profesor1.muestraCargo());
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
