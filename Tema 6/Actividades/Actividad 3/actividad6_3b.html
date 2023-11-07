@@ -98,7 +98,8 @@
 
           // Deberemos iterar dentro del array de objetos. Buscaremos en la nombre de cada objeto para poder borrarlo
           for (let i = 0; i < this.#articulos.length; i++) {
-            if (this.#articulos[i].cod === articuloParaBorrar) {
+            let propiedades = this.#articulos[i].articulo();
+            if (propiedades.cod === articuloParaBorrar) {
               this.#articulos.splice(i, 1); // Eliminamos el objeto en cuestión
               alert(
                 "El artículo " +
