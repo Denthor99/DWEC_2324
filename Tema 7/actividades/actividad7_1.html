@@ -18,6 +18,50 @@
         border: 1px solid green;
       }
     </style>
+    <script>
+      class BajaVehiculo {
+        
+        #modificaDNI(){
+          var mod = document.getElementById("modificarDNI").innerHTML("Editando DNI....");
+        }
+
+        #dniOriginal(){
+          var dni = document.getElementById("modificarDNI").innerHTML("DNI:");
+        }
+      }
+
+      function valida(){
+        var matr = document.getElementById("matricula");
+        if(matr.validity.patternMismatch){
+          matr.setCustomValidity("Formato de matrícula erróneo (4 numeros + 3 letras)!!");
+        } else {
+          matr.setCustomValidity("");
+        }
+      }
+
+      function comprobarDNI(){
+      var labelOrigin = document.getElementById("modificarDNI");
+      var inputOrigin = document.getElementById("inputDNI");
+
+      inputOrigin.addEventListener('focus', function () {
+        labelOrigin.textContent = "Editando DNI...";
+      });
+
+      inputOrigin.addEventListener('blur', function () {
+        labelOrigin.textContent = "DNI:";
+      });
+    }
+      function losEventos(){
+        // Función para validación de matricula
+        var matr = document.getElementById("matricula");
+        matr.addEventListener("keyup",valida);
+
+        var dni = document.getElementById("matricula");
+        dnij
+      }
+    
+      window.onload=losEventos;
+    </script>
   </head>
   <body>
     <div class="container text-left">
@@ -31,6 +75,7 @@
             <div class="col-md-2">
               <label class="form-label">Matrícula:</label>
               <input
+                id="matricula"
                 type="text"
                 class="form-control"
                 pattern="^[0-9]{4}[A-Z]{3}$"
@@ -49,11 +94,11 @@
             <div class="col-md-5">
               <label class="form-label">6 últimos dígitos (nº bastidor):</label>
               <input
-                type="number"
+                type="text"
                 class="form-control"
-                maxlength="6"
                 size="6"
-                pattern="^[0-9]{6}"
+                maxlength="6"
+                pattern="[0-9]{6}"
                 required
               />
             </div>
@@ -98,7 +143,7 @@
             </div>
             <div class="col-auto">
               <label class="form-label">Tlf:</label>
-              <input type="number" class="form-control" required />
+              <input type="text" class="form-control" size="9" maxlength="9" pattern="[0-9]{9}" required/>
             </div>
             <div class="col-auto">
               <label class="form-label">Tipo de baja:</label>
@@ -129,30 +174,8 @@
         </form>
       </div>
     </div>
-    <script>
-        class BajaVehiculo {
-          #matricula;
-          #fechMatriculacion;
-          #numBastidor;
-          #nombre;
-          #apellidos;
-          #domicilio;
-          #dni;
-          #mail;
-          #tlfno;
-          #baja;
-        }
-        var labelOrigin = document.getElementById("modificarDNI");
-        var inputOrigin = document.getElementById("inputDNI");
-  
-        inputOrigin.addEventListener('focus', function () {
-          labelOrigin.textContent = "Editando DNI...";
-        });
-  
-        inputOrigin.addEventListener('blur', function () {
-          labelOrigin.textContent = "DNI:";
-        });
-      </script>
+
+    <!--JS de BootStrap-->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
