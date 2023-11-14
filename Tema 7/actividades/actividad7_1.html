@@ -20,48 +20,53 @@
     </style>
     <script>
       class BajaVehiculo {
-        
-        #modificaDNI(){
-          var mod = document.getElementById("modificarDNI").innerHTML("Editando DNI....");
+        #modificaDNI() {
+          var mod = document.getElementById("modificarDNI").textContent = "Editando DNI....";
         }
-
-        #dniOriginal(){
-          var dni = document.getElementById("modificarDNI").innerHTML("DNI:");
+    
+        #dniOriginal() {
+          var dni = document.getElementById("modificarDNI").textContent = "DNI:";
         }
-      }
-
-      function valida(){
-        var matr = document.getElementById("matricula");
-        if(matr.validity.patternMismatch){
-          matr.setCustomValidity("Formato de matrícula erróneo (4 numeros + 3 letras)!!");
-        } else {
-          matr.setCustomValidity("");
+    
+        #valida() {
+          var matr = document.getElementById("matricula");
+          if (matr.validity.patternMismatch) {
+            matr.setCustomValidity("Formato de matrícula erróneo (4 números + 3 letras)!!");
+          } else {
+            matr.setCustomValidity("");
+          }
         }
-      }
-
-      function comprobarDNI(){
-      var labelOrigin = document.getElementById("modificarDNI");
-      var inputOrigin = document.getElementById("inputDNI");
-
-      inputOrigin.addEventListener('focus', function () {
-        labelOrigin.textContent = "Editando DNI...";
-      });
-
-      inputOrigin.addEventListener('blur', function () {
-        labelOrigin.textContent = "DNI:";
-      });
-    }
-      function losEventos(){
-        // Función para validación de matricula
-        var matr = document.getElementById("matricula");
-        matr.addEventListener("keyup",valida);
-
-        var dni = document.getElementById("matricula");
-        dnij
+    
+        #comprobarDNI() {
+          var labelOrigin = document.getElementById("modificarDNI");
+          var inputOrigin = document.getElementById("inputDNI");
+    
+          inputOrigin.addEventListener('focus', () => {
+            labelOrigin.textContent = "Editando DNI...";
+          });
+    
+          inputOrigin.addEventListener('blur', () => {
+            labelOrigin.textContent = "DNI:";
+          });
+        }
+    
+        losEventos() {
+          var matr = document.getElementById("matricula");
+          matr.addEventListener("keyup", this.#valida.bind(this));
+    
+          var dni = document.getElementById("inputDNI");
+          dni.addEventListener("focus", this.#modificaDNI.bind(this));
+          dni.addEventListener("blur", this.#dniOriginal.bind(this));
+        }
       }
     
-      window.onload=losEventos;
+      // Instancia la clase BajaVehiculo
+      var eventos = new BajaVehiculo();
+      window.onload = function () {
+        eventos.losEventos();
+      };
     </script>
+    
   </head>
   <body>
     <div class="container text-left">
@@ -69,7 +74,7 @@
         <span class="fs-4">Solicitud de baja de vehículos</span>
       </header>
       <div class="mb-3">
-        <form id="form1">
+        <form id="form1" method="GET">
           <div class="row g-3">
             <h3>Datos del vehículo:</h3>
             <div class="col-md-2">
