@@ -26,8 +26,78 @@
       crossorigin="anonymous"
     ></script>
 
-    <!--Clase BajaVehiculo + metódos necesarios para el ejercicio-->
+    <!-- Clases creadas para el ejercicio -->
     <script>
+
+      // Clase usuario. Creada principalmente para poder instanciar usuarios
+      class Usuario{
+        constructor(nombre,contrasenia){
+          this.nombre=nombre;
+          this.contrasenia=contrasenia;
+        }
+      }
+
+      // Clase principal del ejercicio. Contiene un array privado de usuarios y los métodos necesarios para cumplir lo que se pide en el ejercicio
+      class Session{
+        #usuarios = []; // Array con visibilidad privada. Se cargarán en su interior objetos con datos de usuario
+        // Constructor creado para que una vez que instanciemos la clase, se ejecute dicha función.
+          constructor(){
+            this.#insertarUsuarios();
+          }
+
+        // Añadimos unos cuantos usuarios al array privado de la clase.
+        // Este método se llamará cada vez que instanciemos la clase Session, para tener siempre contenido en el array de objetos
+        #insertarUsuarios(){
+          this.#usuarios.push(new Usuario("Derancuga","Deran234"));
+          this.#usuarios.push(new Usuario("Palomita18","Divertida18"));
+          this.#usuarios.push(new Usuario("JuanmaHerrera03","Js4ever1"));
+          this.#usuarios.push(new Usuario("Davilillo39","Megaman19"));
+        }
+
+        // Función encargada de lanzar un mensaje personalizado si el formato de la contraseña no es el correcto
+        #validaPasswd(){
+          var passwd = document.getElementById("passwd");
+          if (passwd.validity.patternMismatch){
+            passwd.setCustomValidity("Formato incorrecto!! Debe tener: 8 caracteres mínimo, al menos 1 mayúscula, 1 minúscula, y 1 número");
+          }else{
+            passwd.setCustomValidity("");
+          }
+        }
+
+        // Función que comprobará si el usuario y la contraseña se encuentran en el array de la propia clase session
+        // Si coinciden los valores, se lanzará un alert indicando que se ha iniciado correctamente la sesión.
+        // Si no coinciden, se mostrará el mensaje correspondiente. Además, usaremos preventDefault, un método de la clase "Event". Este método
+        // nos permite "cancelar" la acción predeterminada del formulario (submit). Con esto nos evitamos el enviar los datos del formulario erroneos.
+        #comprobarUserPasswd(event){
+          var nombreUser = document.getElementById("user").value;
+          var passwdUser = document.getElementById("passwd").value;
+          for (let i =0; i<this.#usuarios.length;i++){
+            if (this.#usuarios[i].nombre === nombreUser && this.#usuarios[i].contrasenia === passwdUser){
+              alert("Se ha iniciado sesión correctamente. Iniciando....");
+              return;
+            }
+          }
+          alert("No coincide el usuario y la contraseña");
+          event.preventDefault(); // Cancelación del evento predeterminado del formulario (submit)
+        }
+
+        // Función empleada para englobar todos los métodos privados de la clase session
+        losEventos(){
+          var password = document.getElementById("passwd");
+          password.addEventListener('keyup',this.#validaPasswd.bind(this));
+
+          var formulario = document.getElementById("form1");
+          formulario.addEventListener('submit',this.#comprobarUserPasswd.bind(this));
+        }
+      }
+
+      // Creamos una breve función, que contendrá la instacia de la clase session, junto a la correspondiente llamada a la función "losEventos"
+      function load(){
+        var eventos = new Session();
+        eventos.losEventos();
+      }
+      // Ahora cada vez que cargemos la página, se cargará junto al HTML.
+      window.onload=load;
       
     </script>
   </head>
@@ -37,6 +107,7 @@
         <span class="fs-4">UbriTek - Login</span>
       </header>
       <div class="mb-3">
+        <!--Usamos el metodo GET para comprobar que se envía la información si todo está en ordén y cumple con el enunciado, en un entorno real sería inviable puesto a que no habría seguridad alguna-->
         <form id="form1" method="GET">
           <div class="row g-3">
             <h3>Inicio de Sesión:</h3>
@@ -49,8 +120,10 @@
               <input
                 type="password"
                 name="passwd"
+                id="passwd"
                 class="form-control"
                 minlength="8"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                 required
               />
             </div>
