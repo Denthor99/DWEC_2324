@@ -1,0 +1,17 @@
+Apuntes práctica tema 8 DWEC
+Todo en una única página (se puede usar archivo js aparte)
+Uso de tres clases (minimo)
+Bloques
+objetos (tabla con datos de los objetos(array)
+cesta (tabla con elementos visuales, posiblemente bootstrap)
+
+Elementos estaticos
+div con el bloque de los objetos (contenido dinamico)
+cesta con imagenes y columnas. Generación dinamica de los articulos
+
+Clases
+articulo: cod, descripcion precio imagen(generada de forma dinamica
+cesta: diferentes operaciones
+zonaArticulos: metodos muestra dinamicamente
+
+En la cesta el numero de unidades se añaden con un button desde la zonaDinamica. Además calculará automaticamente

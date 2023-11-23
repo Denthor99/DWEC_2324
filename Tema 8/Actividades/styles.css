@@ -1,0 +1,25 @@
+.container{
+    display:grid;
+    grid-template-columns: repeat(12,1fr);;
+}
+.zonaTitulo{
+    grid-column: 2/12;
+    padding-top: 10px;
+    background-color: aliceblue;
+}
+.zonaDinamica{
+    grid-column: 2/8;
+    background-color: azure;
+    margin-top:10px;
+    padding-top: 10px;
+}
+.zonaDinamica__contenido{
+    display: flex;
+    justify-content: space-between;
+}
+.zonaCesta{
+    grid-column: 8/11;
+    margin-left: 5px;
+    margin-top:10px;
+    padding-top: 10px;
+}
