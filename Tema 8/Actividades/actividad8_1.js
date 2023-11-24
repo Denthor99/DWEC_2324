@@ -81,9 +81,10 @@ class zonaCatalogo{
         input.setAttribute("class", "inputArticulo");
 
             // Creamos un boton
-            let boton = document.createElement('button');
+            let boton = document.createElement('a');
             boton.className = "btn btn-primary";
-            boton.innerText = "añadir al carrito";
+            boton.innerText = "Añadir";
+            boton.setAttribute("role","button");
             boton.setAttribute("data-id", infoArticulo.cod);
             boton.setAttribute("id", "botonArticulo-" + infoArticulo.cod);
             boton.addEventListener('click', () => this.#enviarCesta(infoArticulo.cod));
