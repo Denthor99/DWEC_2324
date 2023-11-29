@@ -5,17 +5,17 @@
 .zonaTitulo{
     grid-column: 2/12;
     padding-top: 10px;
+    padding-left: 10px;
     background-color: aliceblue;
 }
 .zonaDinamica{
     grid-column: 2/8;
     background-color: azure;
     margin-top:10px;
-    padding-top: 10px;
 }
 .zonaDinamica__contenido{
     display: flex;
-    justify-content: space-between;
+    justify-content: safe;
 }
 .zonaCesta{
     grid-column: 8/11;

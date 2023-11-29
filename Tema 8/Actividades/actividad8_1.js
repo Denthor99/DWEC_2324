@@ -1,4 +1,4 @@
-class Articulo{
+class Producto{
     #cod;
     #nombre;
     #precio;
@@ -11,7 +11,7 @@ class Articulo{
         this.#imagen=imagen;
 
     }
-    mostrarArticulo(){
+    mostrarProducto(){
         return {
             cod: this.#cod,
             nombre: this.#nombre,
@@ -21,23 +21,27 @@ class Articulo{
     }
 }
 
+// Creamos un array externo, donde replicaremos un acceso a la base de datos
+var productos = [
+    new Producto(1, "Renault Megane", 15000, "https://source.unsplash.com/random/400x400/?renault-megane"),
+    new Producto(2, "Vestido Rojo", 29.99, "https://source.unsplash.com/random/400x400/?red-dress"),
+    new Producto(3, "Taza café", 6.99, "https://source.unsplash.com/random/400x400/?cup-coffee"),
+    new Producto(4, "Cámara reflex", 699.99, "https://source.unsplash.com/random/400x400/?canon-camera"),
+    new Producto(5, "Bugatti Veyron", 1693900.99, "https://source.unsplash.com/random/400x400/?bugatti-veyron")
+];
+
 class Cesta {
-    #arrayArticulos = [];
+    #arrayCesta = [];
+
+
 
 
 }
 
-class zonaCatalogo{
-    #arrayArticulos;
+class ContProductos{
+    #arrayProductos = productos;
     constructor(){
-        this.#arrayArticulos = [
-            new Articulo(1, "Renault Megane", 15000, "https://source.unsplash.com/random/400x400/?renault-megane"),
-            new Articulo(2, "Vestido Rojo", 29.99, "https://source.unsplash.com/random/400x400/?red-dress"),
-            new Articulo(3, "Taza café", 6.99, "https://source.unsplash.com/random/400x400/?cup-coffee"),
-            new Articulo(4, "Cámara reflex", 699.99, "https://source.unsplash.com/random/400x400/?canon-camera"),
-            new Articulo(5, "Bugatti Veyron", 1693900.99, "https://source.unsplash.com/random/400x400/?bugatti-veyron")
-        ];
-        this.#mostrarArticulos(this.#arrayArticulos);
+        this.#mostrarProductos(this.#arrayProductos);
     }
     
     // Evento enviar articulo a Array cesta
@@ -46,36 +50,36 @@ class zonaCatalogo{
 
     }
 
-    #mostrarArticulos(arrayArticulos){
-        arrayArticulos.forEach(articulo=>{
-            let infoArticulo = articulo.mostrarArticulo();
+    #mostrarProductos(arrayProductos){
+        arrayProductos.forEach(producto=>{
+            let infoProducto = producto.mostrarProducto();
 
             // Capturamos el div contenedor
             let divContenedor = document.getElementById("zonaDinamica");
 
             // Creamos div para cada elemento
-            let divArticulo = document.createElement('div');
-            divArticulo.className="card";
-            divArticulo.style="width: 12rem";
+            let divProducto = document.createElement('div');
+            divProducto.className="card";
+            divProducto.style="width: 10rem";
 
             // creamos la imagen
             let imagen = document.createElement('img');
-            imagen.src=infoArticulo.imagen;
+            imagen.src=infoProducto.imagen;
             imagen.className="card-img-top";
 
             // creamos el nombre del articulo
             let nombre = document.createElement('p');
-            nombre.innerHTML = "<b>"+infoArticulo.nombre+"</b>";
+            nombre.innerHTML = "<b>"+infoProducto.nombre+"</b>";
             nombre.className = "card-title";
 
             // Creamos el precio
             let precio = document.createElement('p');
-            precio.innerText = infoArticulo.precio;
+            precio.innerText = infoProducto.precio + "€";
             nombre.className =  "card-text";
 
             //  Creamos un input
             let input = document.createElement('input');
-        input.setAttribute("data-id", infoArticulo.cod);
+        input.setAttribute("data-iduni", infoProducto.cod);
         input.setAttribute("type", "number");
         input.setAttribute("value", "1");
         input.setAttribute("class", "inputArticulo");
@@ -85,16 +89,16 @@ class zonaCatalogo{
             boton.className = "btn btn-primary";
             boton.innerText = "Añadir";
             boton.setAttribute("role","button");
-            boton.setAttribute("data-id", infoArticulo.cod);
-            boton.setAttribute("id", "botonArticulo-" + infoArticulo.cod);
-            boton.addEventListener('click', () => this.#enviarCesta(infoArticulo.cod));
+            boton.setAttribute("data-idbot", infoProducto.cod);
+            boton.setAttribute("id", "botonArticulo-" + infoProducto.cod);
+            boton.addEventListener('click', () => this.#enviarCesta(infoProducto.cod));
 
-            divArticulo.appendChild(imagen);
-            divArticulo.appendChild(nombre);
-            divArticulo.appendChild(precio);
-            divArticulo.appendChild(input);
-            divArticulo.appendChild(boton);
-            divContenedor.appendChild(divArticulo);
+            divProducto.appendChild(imagen);
+            divProducto.appendChild(nombre);
+            divProducto.appendChild(precio);
+            divProducto.appendChild(input);
+            divProducto.appendChild(boton);
+            divContenedor.appendChild(divProducto);
 
 
         });
@@ -102,6 +106,4 @@ class zonaCatalogo{
     }
 }
 
-window.onload = ()=>{
-    new zonaCatalogo();
-};
+window.addEventListener('load',()=>new ContProductos);
