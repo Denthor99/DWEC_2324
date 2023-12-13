@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    
+    // Guardar datos 
+    var objJS={alumno:"Juan" , curso:2 };
+    var cadenaJSON=JSON.stringify(objJS);
+    localStorage.setItem("datos", cadenaJSON);
+    
+    // Recuperar datos
+    var datos = localStorage.getItem("datos");
+    obj = JSON.parse(datos);
+    alert (obj.alumno); // Muestra “Juan”
+    
+    </script>
+<body>
+    
+</body>
+</html>

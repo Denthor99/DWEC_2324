@@ -1,0 +1,1 @@
+Se debe montar dentro de XAMPP, puesto que necesitamos el interprete de PHP
