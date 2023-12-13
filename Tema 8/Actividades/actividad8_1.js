@@ -27,7 +27,7 @@ var productos = [
     new Producto(2, "Vestido Rojo", 29.99, "https://source.unsplash.com/random/400x400/?red-dress"),
     new Producto(3, "Taza café", 6.99, "https://source.unsplash.com/random/400x400/?cup-coffee"),
     new Producto(4, "Cámara reflex", 699.99, "https://source.unsplash.com/random/400x400/?canon-camera"),
-    new Producto(5, "Bugatti Veyron", 1693900.99, "https://source.unsplash.com/random/400x400/?bugatti-veyron")
+    new Producto(5, "Iphone 8", 299.99, "https://source.unsplash.com/random/400x400/?iphone-8")
 ];
 
 class Cesta {

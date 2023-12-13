@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prueba XML</title>
+    <script>
+      // Creamos una variable, donde en su interior almacenaremos un XML
+      var archivo = `<?xml version="1.0" encoding="UTF-8"?>
+ <cine>
+    <película categoría="acción">
+           <título idioma="inglés">Mad Max</título>
+            <director>George Miller</director>
+            <estreno>15 mayo 2015</estreno>
+            <reparto>Charlize Theron</reparto>
+            <reparto>Tom Hardy</reparto>
+     </película>
+     <película categoría="animación">
+            <título idioma="inglés">Inside Out</título>
+       	<reparto>Amy Poehler</reparto>
+       	<reparto>Paco Candela</reparto>
+    </película>
+ </cine>`;
+
+    // Parseamos
+    var parser = new DOMParser();
+
+    // Preparamos el archivo
+    var xmlDoc = parser.parseFromString(archivo,"text/xml");
+    var pelis = xmlDoc.getElementsByTagName('película');
+
+    var txt ="";
+
+   for (var i = 0; i < pelis.length; i++) {
+        var titulo = pelis[i].getElementsByTagName('título');
+        var actores = pelis[i].getElementsByTagName('reparto');
+        txt += "Titulo: " + titulo[0].childNodes[0].nodeValue + "\n";
+        for (var j =0; j < actores.length;j++){
+            txt += actores[j].childNodes[0].nodeValue+"\n";
+        }
+   }
+    alert(txt);
+
+    </script>
+  </head>
+  <body></body>
+</html>
