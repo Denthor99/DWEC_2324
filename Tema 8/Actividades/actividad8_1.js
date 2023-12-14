@@ -1,27 +1,26 @@
-class Producto{
+class Producto {
     #cod;
     #nombre;
     #precio;
     #imagen;
 
-    constructor(cod,nombre,precio,imagen){
-        this.#cod=cod;
-        this.#nombre=nombre;
-        this.#precio=precio;
-        this.#imagen=imagen;
-
+    constructor(cod, nombre, precio, imagen) {
+        this.#cod = cod;
+        this.#nombre = nombre;
+        this.#precio = precio;
+        this.#imagen = imagen;
     }
-    mostrarProducto(){
+
+    mostrar() {
         return {
             cod: this.#cod,
             nombre: this.#nombre,
             precio: this.#precio,
-            imagen:this.#imagen
+            imagen: this.#imagen
         };
     }
 }
 
-// Creamos un array externo, donde replicaremos un acceso a la base de datos
 var productos = [
     new Producto(1, "Renault Megane", 15000, "https://source.unsplash.com/random/400x400/?renault-megane"),
     new Producto(2, "Vestido Rojo", 29.99, "https://source.unsplash.com/random/400x400/?red-dress"),
@@ -33,65 +32,104 @@ var productos = [
 class Cesta {
     #arrayCesta = [];
 
+    agregarProducto(producto, cantidad) {
+        const productoEnCesta = this.#arrayCesta.find(item => item.id === producto.mostrar().cod);
 
+        if (productoEnCesta) {
+            productoEnCesta.cantidad += cantidad;
+        } else {
+            this.#arrayCesta.push({ id: producto.mostrar().cod, cantidad });
+        }
 
+        this.renderizarCesta();
+    }
 
+    calcularTotales() {
+        let total = 0;
+
+        this.#arrayCesta.forEach(item => {
+            const producto = productos.find(producto => producto.mostrar().cod === item.id);
+            if (producto) {
+                total += producto.mostrar().precio * item.cantidad;
+            }
+        });
+
+        const totalConIVA = total * 1.21;
+
+        document.getElementById("total").innerText = total.toFixed(2);
+        document.getElementById("totalIVA").innerText = totalConIVA.toFixed(2);
+    }
+
+    renderizarCesta() {
+        const cestaCompra = document.getElementById("cestaCompra");
+        cestaCompra.innerHTML = '';
+
+        this.#arrayCesta.forEach(item => {
+            const producto = productos.find(producto => producto.mostrar().cod === item.id);
+
+            if (producto) {
+                const subtotal = producto.mostrar().precio * item.cantidad;
+
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${producto.mostrar().cod}</td>
+                    <td>${producto.mostrar().nombre}</td>
+                    <td>${item.cantidad}</td>
+                    <td>${producto.mostrar().precio.toFixed(2)}</td>
+                    <td>${subtotal.toFixed(2)}</td>
+                `;
+
+                cestaCompra.appendChild(fila);
+            }
+        });
+
+        this.calcularTotales();
+    }
 }
 
-class ContProductos{
+class ContProductos {
     #arrayProductos = productos;
-    constructor(){
+    cesta = new Cesta();
+
+    constructor() {
         this.#mostrarProductos(this.#arrayProductos);
     }
-    
-    // Evento enviar articulo a Array cesta
-    #enviarCesta(){
-        let botonId = document.getElementById("botonArticulo");
 
-    }
-
-    #mostrarProductos(arrayProductos){
-        arrayProductos.forEach(producto=>{
-            let infoProducto = producto.mostrarProducto();
-
-            // Capturamos el div contenedor
+    #mostrarProductos(arrayProductos) {
+        arrayProductos.forEach(producto => {
+            let infoProducto = producto.mostrar();
             let divContenedor = document.getElementById("zonaDinamica");
-
-            // Creamos div para cada elemento
             let divProducto = document.createElement('div');
-            divProducto.className="card";
-            divProducto.style="width: 10rem";
+            divProducto.className = "card";
+            divProducto.style = "width: 10rem";
 
-            // creamos la imagen
             let imagen = document.createElement('img');
-            imagen.src=infoProducto.imagen;
-            imagen.className="card-img-top";
+            imagen.src = infoProducto.imagen;
+            imagen.className = "card-img-top";
 
-            // creamos el nombre del articulo
             let nombre = document.createElement('p');
-            nombre.innerHTML = "<b>"+infoProducto.nombre+"</b>";
+            nombre.innerHTML = "<b>" + infoProducto.nombre + "</b>";
             nombre.className = "card-title";
 
-            // Creamos el precio
             let precio = document.createElement('p');
             precio.innerText = infoProducto.precio + "€";
-            nombre.className =  "card-text";
+            nombre.className = "card-text";
 
-            //  Creamos un input
             let input = document.createElement('input');
-        input.setAttribute("data-iduni", infoProducto.cod);
-        input.setAttribute("type", "number");
-        input.setAttribute("value", "1");
-        input.setAttribute("class", "inputArticulo");
+            input.setAttribute("data-iduni", infoProducto.cod);
+            input.setAttribute("type", "number");
+            input.setAttribute("value", "1");
+            input.setAttribute("class", "inputArticulo");
 
-            // Creamos un boton
             let boton = document.createElement('a');
             boton.className = "btn btn-primary";
             boton.innerText = "Añadir";
-            boton.setAttribute("role","button");
+            boton.setAttribute("role", "button");
             boton.setAttribute("data-idbot", infoProducto.cod);
             boton.setAttribute("id", "botonArticulo-" + infoProducto.cod);
-            boton.addEventListener('click', () => this.#enviarCesta(infoProducto.cod));
+            boton.addEventListener('click', () => {
+                this.#enviarCesta(infoProducto.cod);
+            });
 
             divProducto.appendChild(imagen);
             divProducto.appendChild(nombre);
@@ -99,11 +137,17 @@ class ContProductos{
             divProducto.appendChild(input);
             divProducto.appendChild(boton);
             divContenedor.appendChild(divProducto);
-
-
         });
+    }
 
+    #enviarCesta(idBoton) {
+        let cantidad = document.querySelector("input[data-iduni='" + idBoton + "']");
+        const productoSeleccionado = productos.find(producto => producto.mostrar().cod === idBoton);
+
+        if (productoSeleccionado && cantidad.value > 0) {
+            this.cesta.agregarProducto(productoSeleccionado, parseInt(cantidad.value));
+        }
     }
 }
 
-window.addEventListener('load',()=>new ContProductos);
+window.addEventListener('load', () => new ContProductos());
