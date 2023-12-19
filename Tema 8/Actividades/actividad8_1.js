@@ -53,6 +53,12 @@ var productos = [
     299.99,
     "https://source.unsplash.com/random/400x400/?iphone-8"
   ),
+  new Producto(
+    6,
+    "PlayStation 5",
+    499.99,
+    "https://source.unsplash.com/random/400x400/?playstation-5"
+  )
 ];
 
 class Cesta {
