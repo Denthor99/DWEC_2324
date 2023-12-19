@@ -21,6 +21,7 @@ class Producto {
     }
 }
 
+// Estamos haciendo una "recreación" de una consulta a la base de datos
 var productos = [
     new Producto(1, "Renault Megane", 15000, "https://source.unsplash.com/random/400x400/?renault-megane"),
     new Producto(2, "Vestido Rojo", 29.99, "https://source.unsplash.com/random/400x400/?red-dress"),
@@ -31,6 +32,14 @@ var productos = [
 
 class Cesta {
     #arrayCesta = [];
+    enviarCesta(idBoton) {
+        let cantidad = document.querySelector("input[data-iduni='" + idBoton + "']");
+        const productoSeleccionado = productos.find(producto => producto.mostrar().cod === idBoton);
+
+        if (productoSeleccionado && cantidad.value > 0) {
+            this.agregarProducto(productoSeleccionado, parseInt(cantidad.value));
+        }
+    }
 
     agregarProducto(producto, cantidad) {
         const productoEnCesta = this.#arrayCesta.find(item => item.id === producto.mostrar().cod);
@@ -40,6 +49,12 @@ class Cesta {
         } else {
             this.#arrayCesta.push({ id: producto.mostrar().cod, cantidad });
         }
+
+        this.renderizarCesta();
+    }
+
+    eliminarProducto(producto){
+        const productoEnCesta = this.#arrayCesta.find(item => item.id === producto.mostrar().cod);
 
         this.renderizarCesta();
     }
@@ -77,6 +92,7 @@ class Cesta {
                     <td>${item.cantidad}</td>
                     <td>${producto.mostrar().precio.toFixed(2)}</td>
                     <td>${subtotal.toFixed(2)}</td>
+                    <td><button class="btn btn-danger" id="elim">X</button></td>
                 `;
 
                 cestaCompra.appendChild(fila);
@@ -128,7 +144,7 @@ class ContProductos {
             boton.setAttribute("data-idbot", infoProducto.cod);
             boton.setAttribute("id", "botonArticulo-" + infoProducto.cod);
             boton.addEventListener('click', () => {
-                this.#enviarCesta(infoProducto.cod);
+                this.cesta.enviarCesta(infoProducto.cod);
             });
 
             divProducto.appendChild(imagen);
@@ -138,15 +154,6 @@ class ContProductos {
             divProducto.appendChild(boton);
             divContenedor.appendChild(divProducto);
         });
-    }
-
-    #enviarCesta(idBoton) {
-        let cantidad = document.querySelector("input[data-iduni='" + idBoton + "']");
-        const productoSeleccionado = productos.find(producto => producto.mostrar().cod === idBoton);
-
-        if (productoSeleccionado && cantidad.value > 0) {
-            this.cesta.agregarProducto(productoSeleccionado, parseInt(cantidad.value));
-        }
     }
 }
 
