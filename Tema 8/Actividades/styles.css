@@ -15,7 +15,7 @@
 }
 .zonaDinamica__contenido{
     display: flex;
-    justify-content: safe;
+    flex-wrap: wrap;
 }
 .zonaCesta{
     grid-column: 8/11;
