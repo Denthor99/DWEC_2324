@@ -1,3 +1,4 @@
+// Clase Producto, usada para instanciar productos. Atributos privados, usamos un método para ver los valores fuera de la clase
 class Producto {
   #cod;
   #nombre;
@@ -21,8 +22,9 @@ class Producto {
   }
 }
 
-// Estamos haciendo una "recreación" de una consulta a la base de datos
-var productos = [
+// Estamos haciendo una "recreación" de una consulta a la base de datos. Se que las variables globales son mala práctica, pero lo hago por simplicar el código
+// Dentro de esta constante, instanciamos varios Productos 
+const productos = [
   new Producto(
     1,
     "Renault Megane",
@@ -61,86 +63,134 @@ var productos = [
   )
 ];
 
+// Clase Cesta. Clase encargada de gestionar tanto la cesta de la compra como de almacenar en local los datos del carrito
 class Cesta {
   #arrayCesta = [];
+  #productosExistentes =[];
+
+  // Definimos un constructor que: añade al array de "productos existentes" la variable "productos" y,
+  // de existir datos almacenados en el navegador, los cargue y los muestre en la tabla
+  constructor(){
+    this.#productosExistentes = productos;
+    this.#datosLocales();
+  }
+
+
+ // Nota: tanto enviarCesta como agregarProducto se pueden unificar en una sola función, pero por falta de tiempo las dejo separada.
+ // Esta separación se debe a que originalmente el método enviarCesta estaba declarado en la clase contProductos, pero como solo debería estar el método
+ // encargado de generar el contenido dinamico, introduje este método aquí.
   enviarCesta(idBoton) {
     let cantidad = document.querySelector(
       "input[data-iduni='" + idBoton + "']"
     );
-    const productoSeleccionado = productos.find(
+    let productoEscogido = this.#productosExistentes.find(
       (producto) => producto.mostrar().cod === idBoton
     );
 
-    if (productoSeleccionado && cantidad.value > 0) {
-      this.agregarProducto(productoSeleccionado, parseInt(cantidad.value));
+    if (productoEscogido && cantidad.value > 0) {
+      this.#agregarProducto(productoEscogido, parseInt(cantidad.value));
     }
   }
 
-  agregarProducto(producto, cantidad) {
-    const productoEnCesta = this.#arrayCesta.find(
+  #agregarProducto(producto, cantidad) {
+    const productoInsertado = this.#arrayCesta.find(
       (item) => item.id === producto.mostrar().cod
     );
 
-    if (productoEnCesta) {
-      productoEnCesta.cantidad += cantidad;
+    if (productoInsertado) {
+      productoInsertado.cantidad += cantidad;
     } else {
       this.#arrayCesta.push({ id: producto.mostrar().cod, cantidad });
     }
 
-    this.renderizarCesta();
+    // Cargamos la tabla de nuevo, ahora con los datos del nuevo producto
+    this.#renderizarCesta();
+
+    // Guardamos los datos en el localStorage
+    this.#almacenarDatos();
   }
 
-  eliminarProducto(producto) {
-    // Buscar el índice del producto en this.#arrayCesta
-    const index = this.#arrayCesta.findIndex(
-      (item) => item.id === producto.mostrar().cod
+  #eliminarProducto(producto) {
+    // Buscamos el índice del primer producto con dicho  id en this.#arrayCesta
+    const indice = this.#arrayCesta.findIndex(
+      (objeto) => objeto.id === producto.mostrar().cod
     );
 
-    // Verificar si el producto está en la cesta
-    if (index !== -1) {
+    // Verificar si el producto está en la cesta (-1 = no se encuentra)
+    if (indice !== -1) {
       // Eliminar el producto del array
-      this.#arrayCesta.splice(index, 1);
+      this.#arrayCesta.splice(indice, 1);
+
+      // Guardamos los datos actuales
+      this.#almacenarDatos();
 
       // Renderizar la cesta actualizada
-      this.renderizarCesta();
+      this.#renderizarCesta();
     }
   }
 
-  calcularTotales() {
+  #calcularTotales() {
+    // Creamos una variable contenedora con el total
     let total = 0;
 
-    this.#arrayCesta.forEach((item) => {
-      const producto = productos.find(
-        (producto) => producto.mostrar().cod === item.id
+    // Iteramos dentro del arrayCesta, y si existe productos
+    this.#arrayCesta.forEach((objeto) => {
+      let producto = productos.find(
+        (producto) => producto.mostrar().cod === objeto.id
       );
       if (producto) {
-        total += producto.mostrar().precio * item.cantidad;
+        total += producto.mostrar().precio * objeto.cantidad;
       }
     });
 
-    const totalConIVA = total * 1.21;
+    let totalConIVA = total * 1.21;
 
     document.getElementById("total").innerText = total.toFixed(2);
-    document.getElementById("totalIVA").innerText = totalConIVA.toFixed(2);
+    document.getElementById("totalIVA").innerHTML = "<strong>"+totalConIVA.toFixed(2)+"</strong>";
   }
 
-  renderizarCesta() {
-    const cestaCompra = document.getElementById("cestaCompra");
+  // Método usado para cargar los datos del localStorage. Usado para que el usuario no pierda la información de su compra
+  #datosLocales(){
+    // obtenemos los datos
+    var data = localStorage.getItem("carroCompra");
+    var datosGuardados = JSON.parse(data);
+
+    // Si existen datos almacenados en el navegador, los añade al arrayCesta y mostramos el contenido
+    if (datosGuardados != null){
+      this.#arrayCesta = datosGuardados; 
+      
+      // Mostramos la información almacenada en el carrito
+      this.#renderizarCesta();
+    }
+  }
+
+  // Método encargado de ir almacenando el carrito en el localStorage del navegador
+  #almacenarDatos(){
+    // Primero que todo, declaramos variable donde almacenamos la cadena
+    var carrito = JSON.stringify(this.#arrayCesta);
+
+    // Añadimos el objeto JSON al localStorage, añadiendole un nombre descriptivo
+    localStorage.setItem("carroCompra",carrito);
+  }
+
+  // Método encargado de renderizar la cesta de la compra
+  #renderizarCesta() {
+    let cestaCompra = document.getElementById("cestaCompra");
     cestaCompra.innerHTML = "";
 
-    this.#arrayCesta.forEach((item) => {
-      const producto = productos.find(
-        (producto) => producto.mostrar().cod === item.id
+    this.#arrayCesta.forEach((objeto) => {
+      let producto = this.#productosExistentes.find(
+        (producto) => producto.mostrar().cod === objeto.id
       );
 
       if (producto) {
-        const subtotal = producto.mostrar().precio * item.cantidad;
+        let subtotal = producto.mostrar().precio * objeto.cantidad;
 
-        const fila = document.createElement("tr");
+        let fila = document.createElement("tr");
         fila.innerHTML = `
                     <td>${producto.mostrar().cod}</td>
                     <td>${producto.mostrar().nombre}</td>
-                    <td>${item.cantidad}</td>
+                    <td>${objeto.cantidad}</td>
                     <td>${producto.mostrar().precio.toFixed(2)}</td>
                     <td>${subtotal.toFixed(2)}</td>
                     <td><button class="btn btn-danger" id="botonDel-${
@@ -151,37 +201,43 @@ class Cesta {
         cestaCompra.appendChild(fila);
         
         // Creamos un evento especifico para el botón, ligado al método eliminarProducto.
-        const botonEliminar = document.getElementById(`botonDel-${producto.mostrar().cod}`);
-        botonEliminar.addEventListener("click", () => {this.eliminarProducto(producto);});
+        let botonEliminar = document.getElementById(`botonDel-${producto.mostrar().cod}`);
+        botonEliminar.addEventListener("click", this.#eliminarProducto.bind(this,producto));
 
       }
     });
 
-    this.calcularTotales();
+    // Una vez que hayamos mostrado todos los datos de la tabla, invocamos al método calcularTotales para g
+    this.#calcularTotales();
   }
 }
 
+// Clase ContProductos. Clase encargada de mostrar todos los artículos disponibles de forma dinamica.
 class ContProductos {
-  #arrayProductos = productos;
-  cesta = new Cesta();
+  #arrayProductos = [];
+  #cesta = new Cesta();
 
   constructor() {
+    this.#arrayProductos = productos;
     this.#mostrarProductos(this.#arrayProductos);
   }
 
+  // Esta función mostrará tantos productos como instancias de producto haya en la constante "productos"
+  // Nota: me he guiado del guión de la tarea del tema 8 para asignarle un estilo parecido.
   #mostrarProductos(arrayProductos) {
     arrayProductos.forEach((producto) => {
       let infoProducto = producto.mostrar();
       let divContenedor = document.getElementById("zonaDinamica");
-      let divProducto = document.createElement("div");
-      divProducto.className = "card";
-      divProducto.style = "width: 10rem";
+      let divProductos = document.createElement("div");
+      divProductos.classList.add('card','col-sm-4');
+      let productoCard = document.createElement("div");
+      productoCard.classList.add('card-body');
 
       let imagen = document.createElement("img");
       imagen.src = infoProducto.imagen;
-      imagen.className = "card-img-top";
+      imagen.className = "img-fluid";
 
-      let nombre = document.createElement("p");
+      let nombre = document.createElement("h5");
       nombre.innerHTML = "<b>" + infoProducto.nombre + "</b>";
       nombre.className = "card-title";
 
@@ -193,26 +249,26 @@ class ContProductos {
       input.setAttribute("data-iduni", infoProducto.cod);
       input.setAttribute("type", "number");
       input.setAttribute("value", "1");
-      input.setAttribute("class", "inputArticulo");
+      input.classList.add("form-control","mb-2");
+      input.style.width="70px";
 
-      let boton = document.createElement("a");
+      let boton = document.createElement("button");
       boton.className = "btn btn-primary";
       boton.innerText = "Añadir";
-      boton.setAttribute("role", "button");
       boton.setAttribute("data-idbot", infoProducto.cod);
-      boton.setAttribute("id", "botonArticulo-" + infoProducto.cod);
       boton.addEventListener("click", () => {
-        this.cesta.enviarCesta(infoProducto.cod);
+        this.#cesta.enviarCesta(infoProducto.cod);
       });
 
-      divProducto.appendChild(imagen);
-      divProducto.appendChild(nombre);
-      divProducto.appendChild(precio);
-      divProducto.appendChild(input);
-      divProducto.appendChild(boton);
-      divContenedor.appendChild(divProducto);
+      productoCard.appendChild(imagen);
+      productoCard.appendChild(nombre);
+      productoCard.appendChild(precio);
+      productoCard.appendChild(input);
+      productoCard.appendChild(boton);
+      divProductos.appendChild(productoCard);
+      divContenedor.appendChild(divProductos);
     });
   }
 }
-
+// Cargamos el evento de tipo load
 window.addEventListener("load", () => new ContProductos());
