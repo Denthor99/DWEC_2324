@@ -87,14 +87,16 @@ class Cesta {
       (producto) => producto.mostrar().cod === idBoton
     );
 
-    if (productoEscogido && cantidad.value > 0) {
+    if (productoEscogido && parseInt(cantidad.value) > 0) {
       this.#agregarProducto(productoEscogido, parseInt(cantidad.value));
     }
   }
 
+  // Método anteriormente publico, puesto que captaba los datos del método enviarCesta, cuando se encontraba en la clase contProductos.
+  // Añade un elemento al array cesta, que representa el carrito de la compra
   #agregarProducto(producto, cantidad) {
-    const productoInsertado = this.#arrayCesta.find(
-      (item) => item.id === producto.mostrar().cod
+    let productoInsertado = this.#arrayCesta.find(
+      (objeto) => objeto.id === producto.mostrar().cod
     );
 
     if (productoInsertado) {
@@ -106,13 +108,12 @@ class Cesta {
     // Cargamos la tabla de nuevo, ahora con los datos del nuevo producto
     this.#renderizarCesta();
 
-    // Guardamos los datos en el localStorage
-    this.#almacenarDatos();
   }
 
+  // Método asociado al carrito de compra, asociado a cada botón especifico (generado dinamicamente)
   #eliminarProducto(producto) {
     // Buscamos el índice del primer producto con dicho  id en this.#arrayCesta
-    const indice = this.#arrayCesta.findIndex(
+    let indice = this.#arrayCesta.findIndex(
       (objeto) => objeto.id === producto.mostrar().cod
     );
 
@@ -121,19 +122,17 @@ class Cesta {
       // Eliminar el producto del array
       this.#arrayCesta.splice(indice, 1);
 
-      // Guardamos los datos actuales
-      this.#almacenarDatos();
-
       // Renderizar la cesta actualizada
       this.#renderizarCesta();
     }
   }
 
+  // Método creado para, una vez renderizada la tabla, realiza el calculo de los totales
   #calcularTotales() {
     // Creamos una variable contenedora con el total
     let total = 0;
 
-    // Iteramos dentro del arrayCesta, y si existe productos
+    // Iteramos dentro del arrayCesta, y si existe producto, realizamos los calculos correspndientes
     this.#arrayCesta.forEach((objeto) => {
       let producto = productos.find(
         (producto) => producto.mostrar().cod === objeto.id
@@ -143,8 +142,10 @@ class Cesta {
       }
     });
 
+    // Declaramos una variable, encargada de mostrar el total junto al iva
     let totalConIVA = total * 1.21;
 
+    // Modificamos los valores de los elementos según su id. En caso de totalIva, le añado negrita
     document.getElementById("total").innerText = total.toFixed(2);
     document.getElementById("totalIVA").innerHTML = "<strong>"+totalConIVA.toFixed(2)+"</strong>";
   }
@@ -175,14 +176,19 @@ class Cesta {
 
   // Método encargado de renderizar la cesta de la compra
   #renderizarCesta() {
+    // Captamos el elemento a tráves de su id
     let cestaCompra = document.getElementById("cestaCompra");
+
+    // Si hay contenido, lo vaciamos para evitar duplicaciones indeseadas
     cestaCompra.innerHTML = "";
 
+    // Iteramos en la cesta de la compra (arrayCesta)
     this.#arrayCesta.forEach((objeto) => {
       let producto = this.#productosExistentes.find(
         (producto) => producto.mostrar().cod === objeto.id
       );
 
+      // Si hay un producto, generamos la fila con una serie de características
       if (producto) {
         let subtotal = producto.mostrar().precio * objeto.cantidad;
 
@@ -207,7 +213,10 @@ class Cesta {
       }
     });
 
-    // Una vez que hayamos mostrado todos los datos de la tabla, invocamos al método calcularTotales para g
+    // Almacenamos los datos en el localStorage
+    this.#almacenarDatos();
+
+    // Una vez que hayamos mostrado todos los datos de la tabla, realizamos el calculo de los totales
     this.#calcularTotales();
   }
 }
@@ -215,6 +224,7 @@ class Cesta {
 // Clase ContProductos. Clase encargada de mostrar todos los artículos disponibles de forma dinamica.
 class ContProductos {
   #arrayProductos = [];
+  // Instancia de la clase Cesta, necesaria para el correcto funcionamiento de los métodos
   #cesta = new Cesta();
 
   constructor() {
@@ -256,9 +266,7 @@ class ContProductos {
       boton.className = "btn btn-primary";
       boton.innerText = "Añadir";
       boton.setAttribute("data-idbot", infoProducto.cod);
-      boton.addEventListener("click", () => {
-        this.#cesta.enviarCesta(infoProducto.cod);
-      });
+      boton.addEventListener("click", this.#cesta.enviarCesta.bind(this.#cesta,infoProducto.cod));
 
       productoCard.appendChild(imagen);
       productoCard.appendChild(nombre);
