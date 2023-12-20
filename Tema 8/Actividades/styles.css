@@ -1,28 +1,30 @@
-.container{
+/* .container{
     display:grid;
     grid-template-columns: repeat(12,1fr);;
-}
+} */
 .zonaTitulo{
     grid-column: 2/12;
     padding-top: 10px;
     padding-left: 10px;
-    background-color: aliceblue;
+    background-color: rgb(230, 238, 218);
 }
-.zonaDinamica{
+/* .zonaDinamica{
     grid-column: 2/8;
-    background-color: azure;
     margin-top:10px;
 }
 .zonaDinamica__contenido{
     display: flex;
     flex-wrap: wrap;
-}
-.zonaCesta{
+} */
+/* .zonaCesta{
     grid-column: 8/11;
     margin-left: 5px;
     margin-top:10px;
     padding-top: 10px;
-}
-.centrarFooter{
-    text-align: center;
-}
+} */
+/* .centrarFooter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: antiquewhite;
+} */
