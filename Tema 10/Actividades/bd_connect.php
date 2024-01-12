@@ -22,7 +22,7 @@ class Conexion
     }
 }
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['nombresId'])) {
     // Vamos a crear la consulta correspondiente
     $sql = "SELECT id, nombre, apellidos, ciudad FROM tema10.datos";
 
@@ -39,17 +39,15 @@ if (!isset($_GET['id'])) {
     // Devolvemos el resultado, convertido a JSON
     echo json_encode($result);
 } else {
-    // Capturamos el valor del método GET
-    $id = $_GET['id'];
     // Vamos a crear la consulta correspondiente
-    $sql = "SELECT id, nombre FROM tema10.datos WHERE id = :id";
+    $sql = "SELECT id, nombre FROM tema10.datos";
 
     // Realizamos la conexión
     $conexion = new Conexion();
     $pdostmt = $conexion->pdo->prepare($sql);
 
     // Vinculamos la variable
-    $pdostmt->bindParam(':id', $id, PDO::PARAM_INT);
+    // $pdostmt->bindParam(':id', $id, PDO::PARAM_INT);
 
     // Ejecutamos la consulta
     $pdostmt->execute();

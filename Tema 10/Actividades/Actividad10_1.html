@@ -1,26 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actividad 10.1 - Consultas en tiempo real</title>
     <script>
-        function selectLista(){
+        function selectLista() {
             var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function(){
-                if (this.readyState == 4 && this.status == 200){
-                    
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let obj = JSON.parse(this.responseText);
+                    var seleccion = "<option disabled selected>Selecciona una persona</option>";
+                    for (var o of obj) {
+                        seleccion += `<option value="${o.id}" id="id-${o.id}">${o.nombre}</option>`;
+                    }
+                    document.getElementById("listaDesplegable").innerHTML = seleccion;
+
+                    // Agrega el event listener después de cargar la lista
+                    document.getElementById("listaDesplegable").addEventListener("change", function () {
+                        tablaDatos(this.value);
+                    });
                 }
             }
+            xhttp.open("GET", "bd_connect.php?nombresId", true);
+            xhttp.send();
         }
+
+        function tablaDatos(id) {
+            var xhttp= new XMLHttpRequest();
+            xhttp.onreadystatechange = function (){
+                if(this.readyState==4 && this.status==200){
+                    let obj = JSON.parse(this.responseText);
+                    var tabla = "";
+                    for (o of obj){
+                        if(o.id === Number(id)){
+                            tabla += `
+                            <tr>
+                            <th>ID</th>
+                            <td>${o.id}</td>
+                            </tr>
+                            <tr>
+                            <th>Nombre</th>
+                            <td>${o.nombre}</td>
+                            </tr>
+                            <tr>
+                            <th>Apellidos</th>
+                            <td>${o.apellidos}</td>
+                            <tr>
+                            <th>Ciudad</th>
+                            <td>${o.ciudad}</td>
+                            </tr>
+                            `;
+                        }
+                    }
+                    document.getElementById('tabla').innerHTML=tabla;
+                }
+            }
+            xhttp.open("GET", "bd_connect.php", true);
+            xhttp.send();
+        }
+
+        window.onload = selectLista;
     </script>
 </head>
 <body>
     <h3>Tarea 1 Tema 10</h3>
     <select id="listaDesplegable">
     </select>
-    <div id="tabla">
-        La tabla se cargará aqui.....
-    </div>
+    <br>
+    <table id="tabla" border="1">
+       <div>La tabla se cargará aquí....</div>
+    </table>
 </body>
 </html>
