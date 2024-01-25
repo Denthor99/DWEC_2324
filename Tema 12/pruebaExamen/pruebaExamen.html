@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+ $(function(){ 
+    function funAjax(e) {
+        e.preventDefault(); // Para no abandonar la página al enviar formulario.
+
+        //--------- Ajax con Promesas -----------------------------------------
+        // Capturamos los valores introducidos del formulario
+        // let marcaObj = $("#marca").val();
+        // let  modeloObj = $("#modelo").val();
+
+        // Creamos el objeto con los valores recogidos por el formulario
+        // let objetoEnviar = {marca:marcaObj,modelo:modeloObj};
+
+        // Creamos una variable donde almacenaremos la url
+        // let url = "examen1_2Eva.php";
+        // Realizamos la promesa
+        // fetch(
+        //     url,{
+        //         method: 'POST', // Usamos el método POST
+        //         body: JSON.stringify(objetoEnviar), // Convertimos el objeto en una cadena JSON
+        //         headers:{
+        //             'Content-Type':'application/json'
+        //         }
+        //     })
+        //     .then(res => res.json())
+        //     .then(function(obj){
+        //         $("#datos").html(`<h1>El coche es un ${obj.marca} ${obj.modelo}</h1>`);
+        //     })
+        //     .catch(error => console.log(error.message))
+                
+        //----------------------------------------------------------------------
+
+        // ---------Ajax con jQuery---------------------------------------------
+        // Creamos una variable donde especificamos la url al servidor
+        let url = "examen1_2Eva.php";
+        $.post(
+            url,
+            {
+                marca: $("#marca").val(), // Añadimos los valores introducidos por el formulaio
+                modelo: $("#modelo").val() 
+            },
+            function(obj){
+                obj = JSON.parse(obj);
+                $("#datos").html(`<h1>El coche es un ${obj.marca} ${obj.modelo}</h1>`); // Añadimos al elemento (según su id) el resultado de la petición AJAX
+            }
+        );
+
+        //----------------------------------------------------------------------
+
+    }
+    $('form').submit(funAjax);
+})
+</script>
+</head>
+<body>
+    <form>
+    <label>Marca:</label><input type="text" id="marca" required="required">
+    <label>Modelo:</label><input type="text" id="modelo" required="required">
+    <button type="submit" >Enviar</button>
+    </form>
+    <div id="datos"> </div>
+   
+</body>
+</html> 
