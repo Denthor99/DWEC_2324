@@ -1,0 +1,8 @@
+.elementoHover{
+
+}
+.elementoHover:hover{
+    border-color: rgb(0, 4, 255);
+    border-style: double;
+    border-width: 2px;
+}
