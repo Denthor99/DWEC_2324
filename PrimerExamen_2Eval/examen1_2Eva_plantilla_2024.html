@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 5px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        function funAjax(e) {
+          e.preventDefault(); // Para no abandonar la página al enviar formulario.
+
+          //--------- Con Promesas--------------------------------------------------------
+          // Capturamos los valores del formulario
+        //   let idEquipo1 = $("#equipo1").val();
+        //   let idEquipo2 = $("#equipo2").val();
+
+        //   // Creamos una URL
+        //   let objetoEnviado = {equipo1:idEquipo1,equipo2:idEquipo2};
+        //   let url = "examen1_2eva_2024.php";
+        //   //-------------------------------------------------------------------------------
+        //   // Creamos el fetch
+        //   fetch(url, {
+        //   method: 'POST',
+        //   body: JSON.stringify(objetoEnviado),
+        //   headers:{
+        //       'Content-Type': 'application/json'
+        //   }
+        //   })
+        //   .then(res => res.json())
+        //   .then(function (equipos) {
+        //     //Vaciamos el elemento seleccionado, por si hubiera contenido
+        //     $("#datos").html("");
+            
+        //       // Iteraremos el objeto recibido por el PHP (simulación BBDD). Realizo en este caso dicha iteración usando un for, puesto que es el bucle
+        //       // que menos quebraderos de cabeza me ha dado a la hora de realizar lo propuesto por el enunciado.
+        //       for (var i = 0; i < equipos.equipo1.length || i < equipos.equipo2.length; i++) {
+        //         // Creamos una variable, que almacenará los elementos que se incorporarán a la tabla
+        //         var filas = "<tr>";
+
+        //         // Agregaremos primero los datos del primer equipo. Si existe un alumno, lo añade a una celda
+        //         if (i < equipos.equipo1.length) {
+        //           filas += `<td>${equipos.equipo1[i]}</td>`;
+        //         } else {
+        //         // Si, por un casual, no hubiese un alumno, se añadiría la celda vacía
+        //           filas += "<td></td>";
+        //         }
+
+        //         // Ahora agregamos los datos del segundo equipo. Si existe el alumno, lo añadimos a una celda
+        //         if (i < equipos.equipo2.length) {
+        //           filas += `<td>${equipos.equipo2[i]}</td>`;
+        //         } else {
+        //         // Al igual que en el primer equipo, en caso de no existir alumno, se crea una celda vacía
+        //           filas += "<td></td>";
+        //         }
+        //         // Añadimos el final de la fila
+        //         filas += "</tr>";
+
+        //         // Agregar la fila a la tabla, que se encuentra ya creada en el HTML
+        //         $("#datos").append(filas);
+        //       }
+        //     })
+        //   .catch(error => console.error('Error:', error))
+
+          // // -------Con jQuery----------------------------------------------------------
+          // Creamos una variable donde especificamos la url al servidor
+          let url = "examen1_2Eva_2024.php";
+          $.post(
+            url,
+            {
+              equipo1: $("#equipo1").val(),
+              equipo2: $("#equipo2").val(),
+            },
+            function (obj) {
+            // En este caso, deberémos parsear el resultado de la petición al servidor
+            let equipos = JSON.parse(obj);
+
+            // Vaciamos el elemento seleccionado, por si hubiera contenido
+            $("#datos").html("");
+            
+              // Iteraremos el objeto recibido por el PHP (simulación BBDD). Realizo en este caso dicha iteración usando un for, puesto que es el bucle
+              // que menos quebraderos de cabeza me ha dado a la hora de realizar lo propuesto por el enunciado.
+              for (var i = 0; i < equipos.equipo1.length || i < equipos.equipo2.length; i++) {
+                // Creamos una variable, que almacenará los elementos que se incorporarán a la tabla
+                var filas = "<tr>";
+
+                // Agregaremos primero los datos del primer equipo. Si existe un alumno, lo añade a una celda
+                if (i < equipos.equipo1.length) {
+                  filas += `<td>${equipos.equipo1[i]}</td>`;
+                } else {
+                // Si, por un casual, no hubiese un alumno, se añadiría la celda vacía
+                  filas += "<td></td>";
+                }
+
+                // Ahora agregamos los datos del segundo equipo. Si existe el alumno, lo añadimos a una celda
+                if (i < equipos.equipo2.length) {
+                  filas += `<td>${equipos.equipo2[i]}</td>`;
+                } else {
+                // Al igual que en el primer equipo, en caso de no existir alumno, se crea una celda vacía
+                  filas += "<td></td>";
+                }
+                // Añadimos el final de la fila
+                filas += "</tr>";
+
+                // Agregar la fila a la tabla, que se encuentra ya creada en el HTML
+                $("#datos").append(filas);
+              }
+            }
+          );
+
+          // //----------------------------------------------------------------------------
+        }
+        $("form").submit(funAjax);
+      });
+    </script>
+  </head>
+  <body>
+    <form>
+      <label>ID_Equipo1:</label
+      ><input type="number" min="1" id="equipo1" required="required" />
+      <label>ID_Equipo2:</label
+      ><input type="number" min="1" id="equipo2" required="required" />
+      <button type="submit">Enviar</button>
+    </form>
+    <br />
+
+    <table>
+      <thead>
+        <tr>
+          <th>Equipo1</th>
+          <th>Equipo2</th>
+        </tr>
+      </thead>
+      <tbody id="datos"></tbody>
+    </table>
+  </body>
+</html>
