@@ -1,37 +1,43 @@
-interface funBotones {
-    add(): number;
-    res(): number;
+interface BotonesInterface {
+    add(): void;
+    rest(): void;
 }
 
-class GrupoBot implements funBotones {
+class GrupoBot implements BotonesInterface {
     private contador: number = 0;
 
     constructor() {
-        new Boton(this.contador);
     }
 
-    add(): number {
+    add(): void {
         this.contador++;
-        return this.contador;
+        const boton = new Boton(this.contador);
+        $('#buttonParty').append(`<button id="boton${this.contador}">${this.contador}</button>`);
     }
 
-    res(): number {
+    rest(): void {
         if (this.contador > 0) {
+            $(`#boton${this.contador}`).remove();
             this.contador--;
         }
-        return this.contador;
     }
 }
 
 class Boton {
     constructor(contador: number) {
-        alert("Hola desde " + contador);
+        $(`#boton${contador}`).on('click', () => {
+            alert(`Hola desde ${contador}`);
+        });
     }
 }
 
 $(function() {
-    const grupoBot = new GrupoBot();
-    $("#addButton").on("click", function() {
-        $("#buttonParty").append(`<button>${grupoBot.add()}</button>`);
+    const funcionesBot = new GrupoBot();
+    $('#addButton').on('click', function() {
+        funcionesBot.add();
+    });
+
+    $('#delButton').on('click', function() {
+        funcionesBot.rest();
     });
 });
