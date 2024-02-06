@@ -1,6 +1,6 @@
 interface BotonesInterface {
-    add(): void;
-    rest(): void;
+    add(): any;
+    rest(): any;
 }
 
 class GrupoBot implements BotonesInterface {
@@ -11,8 +11,8 @@ class GrupoBot implements BotonesInterface {
 
     add(): void {
         this.contador++;
-        const boton = new Boton(this.contador);
         $('#buttonParty').append(`<button id="boton${this.contador}">${this.contador}</button>`);
+        new Boton(this.contador);
     }
 
     rest(): void {

@@ -5,8 +5,8 @@ class GrupoBot {
     }
     add() {
         this.contador++;
-        const boton = new Boton(this.contador);
         $('#buttonParty').append(`<button id="boton${this.contador}">${this.contador}</button>`);
+        new Boton(this.contador);
     }
     rest() {
         if (this.contador > 0) {
