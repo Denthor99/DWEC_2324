@@ -1,0 +1,37 @@
+Solventación de ejecución de programas  en sistemas linux
+	- añadir a la variable $PATH
+		export PATH=$PATH:<ruta>
+	- se añada automaticamente en cada reinicio
+		vamos al archivo .bashrc e introducimo el comando anterior
+	- Vamos al directorio /etc. En el archivo environment nos permite añadir una ruta accesible en todo el sistema
+
+Herramienta apachectl
+Nos permite modificar el estado del servidor apache de forma rápida
+
+a2enconf <nombre_archivo_configuracion>
+	Nos genera un enlace simbolico a la configuración general del servidor
+
+a2disconf <nombre_archivo_configuracion>
+	Elimina el enlace simbolico anterior
+
+Apache nos permite tener variables de entorno a nivel de servidor. Esto nos permite controlar diversas operaciones. Las variables están definidas en el fichero
+
+PASOS A SEGUIR PARA CONFIGURAR DOS HOSTING VIRTUALES DIFERENTES
+1. Vamos al directorio /etc/apache2/sites-availables
+2. Copiamos el archivo 000*.conf en dos páginas (pagina1.conf y pagina2.conf). Recordar que necesitaremos permisos de superuser
+3. Usado nano modificamos en pagina1.conf lo siguiente: 
+	ServerName www.pagina1.org
+	DocumentRoot /var/www/pagina1
+4. Guardamos los cambios y usamos a2ensite pagina1. Reniciamos apache usando systemctl reload apache2
+5. Creamos el directorio pagina1 en /var/www.
+
+PRÁCTICA DIA 03/11/2023
+1. En virtualbox. Añadimos a la máquina 2 interfaces más, en modo solo anfitrión. Iremos a la configuración general de VBOX, y creamos dos interfaces más. Contarán con el servidor DHCP habilitado
+2. Vamos a la máquina virtual, y con ip a comprobamos que tenemos efectivamente dos interfaces más. Vamos al archivo /etc/network/interfaces y añadimos la correspondientes lineas (allow-hotplug <interfaz> y iface <interfaz> inet dhcp)
+3. Reiniciamos la máquina virtual (o el demonio de la red). Si usamos de nuevo ip a veremos que tenemos direcciones ip en las nuevas interfaces
+4. Vamos al directorio de apache (/etc/apache2) y recargamos las variables del sistema (source envvars).
+5. El servidor por defecto de nuestro apache se configura en el archivo de configuracion (apache2.conf), añadiremos ServerName 000-conf
+5. Vamos al siguiente archivo en Windows (C:\Windows\System32\drivers\etc\hosts) y añadimos por ejemplo 192.168.56.101	www.pagina1.org
+
+COMANDO NUEVO: history
+nos permite observar el historial de comandos utilizados
