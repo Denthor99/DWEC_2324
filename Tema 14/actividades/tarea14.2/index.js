@@ -1,7 +1,7 @@
 // Importamos tanto mongoDB como express
-import { MongoClient, ServerApiVersion } from 'mongodb';
 import express from 'express';
 import path from 'path';
+import { conectLectura } from './mongodb.js';
 
 // Creamos la instancia de nuestro pequeño servidor express
 const app = express();
@@ -18,22 +18,28 @@ app.use(express.static(__dirname));
 // Creamos la conexión
 app.listen(3000, () => console.log('Escuchando en el puerto 3000'));
 
-// Ahora configuramos el propio mongoDB
-
-const uri = "mongodb+srv://Denthor99:5BbjUL2Vjwpn8uGb@atlascluster.5rucaax.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology:true});
-
 // Creamos una ruta para obtener los datos
 app.get('/datos', async (req, res) =>{
-    try {
-        await client.connect();
-        const coleccion = client.db("instituto").collection("personas");
-        const datos = await coleccion.find().toArray();
-        res.json(datos);
-    } catch (error) {
-        console.error(error);
-    } finally {
-        await client.close();
-    }
+    const datos = await conectLectura();
+    res.json(datos);
 });
+
+// Prueba de  a MongoDB de un documento (funciona)
+// async function pruebaSubida(){
+//     try {
+//         await client.connect();
+//         const coleccion = client.db("instituto").collection("personas");
+//         const datos = {
+//             nombre:"Fede",
+//             apellidos:"Lomera"
+//         }
+//         const result = await coleccion.insertOne(datos);
+//     } catch (error) {
+//         console.error(error);
+//     } finally {
+//         await client.close();
+//     }
+// }
+
+
 
