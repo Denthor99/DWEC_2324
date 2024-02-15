@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBDD MongolerDB</title>
+    <title>BBDD MongoDB</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
         function peticionAjax(){
+            // Manejamos el evento por defecto
+            //event.preventDefault();
+
+            // Realizamos la petición ajax con un método POST
+           
+
+
+
+
             let url = "/datos";
             fetch(url)
             .then(res => res.json())
             .then(obj => {
                 obj.forEach(persona => {
-                    $("#datosMongoDB").append(`<p>${persona.nombre}, ${persona.apellidos}</p>`);
+                    $("#datosMongoDB").append(`<tr><td>${persona.nombre}</td><td>${persona.apellidos}</td></tr>`);
                 });
             })
         }
@@ -23,7 +32,7 @@
 </head>
 <body>
     <h1>Formulario de nuevos usuarios</h1>
-    <form action="" method="post">
+    <form action="" method="POST">
         <label for="nombre">Nombre</label><br>
         <input type="text" name="nombre" id="nombre" required><br>
         <label for="apellidos">Apellidos</label><br>
@@ -31,6 +40,6 @@
         <button type="submit">Enviar datos</button>
     </form>
     
-    <div id="datosMongoDB"></div>
+    <table id="datosMongoDB" border="1"></table>
 </body>
 </html>
