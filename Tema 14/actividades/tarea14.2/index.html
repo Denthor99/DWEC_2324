@@ -6,28 +6,55 @@
     <title>BBDD MongoDB</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        function peticionAjax(){
-            // Manejamos el evento por defecto
-            //event.preventDefault();
-
-            // Realizamos la petición ajax con un método POST
-           
-
-
-
-
-            let url = "/datos";
-            fetch(url)
-            .then(res => res.json())
-            .then(obj => {
-                obj.forEach(persona => {
-                    $("#datosMongoDB").append(`<tr><td>${persona.nombre}</td><td>${persona.apellidos}</td></tr>`);
-                });
-            })
+    $(function(){
+    $("#botInsertar").on('click',function(event){
+        event.preventDefault();
+        let url = "/datos";
+        let objeto = {
+            nombre: $("#nombre").val(),  
+            apellidos: $("#apellidos").val()
         }
-        $(function(){
-            peticionAjax();
+        fetch(url,{
+            method:"POST",
+            body: JSON.stringify(objeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(obj => {
+            // Show the table and update it with the new data
+            $("#datosMongoDB").show();
+            $("#datosMongoDB").empty(); // Clear the table before appending new rows
+            obj.forEach(usuario => {
+                // Add each user's data to the table
+                $("#datosMongoDB").append(`<tr><td>${usuario.nombre}</td><td>${usuario.apellidos}</td></tr>`);
+            });
+        })
+        .catch(error => {
+            // Handle any errors that occur during the fetch
+            console.error('Error:', error);
         });
+    });
+});
+
+        
+
+        // function getAjax(){
+        //     let url = "/datos";
+        //     fetch(url)
+        //     .then(res => res.json())
+        //     .then(obj => {
+        //         // Mostramos la tabla. Uso este método porque dejaba un pequeño trazo de la tabla en el HTML previo a
+        //         // la importación de los datos de la BBDD
+        //         $("#datosMongoDB").show();
+        //         obj.forEach(usuario => {
+        //             // Añadimos a la tabla los datos de cada usuario
+        //             $("#datosMongoDB").append(`<tr><td>${usuario.nombre}</td><td>${usuario.apellidos}</td></tr>`);
+        //         });
+        //     })
+        // }
+
     </script>
 </head>
 <body>
@@ -37,9 +64,9 @@
         <input type="text" name="nombre" id="nombre" required><br>
         <label for="apellidos">Apellidos</label><br>
         <input type="text" name="apellidos" id="apellidos" required><br>
-        <button type="submit">Enviar datos</button>
+        <button type="submit" id="botInsertar">Enviar datos</button>
     </form>
-    
-    <table id="datosMongoDB" border="1"></table>
+    <br>
+    <table id="datosMongoDB" border="1" hidden></table>
 </body>
 </html>
