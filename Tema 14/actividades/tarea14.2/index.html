@@ -7,53 +7,44 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
     $(function(){
-    $("#botInsertar").on('click',function(event){
-        event.preventDefault();
-        let url = "/datos";
+    $('form').submit(function(e) {
+        // Previene el comportamiento predeterminado del formulario (enviar la solicitud)
+        e.preventDefault();
+
+        // Obtiene los valores del formulario
+        let nombre = $("#nombre").val();  
+        let apellidos = $("#apellidos").val();
+
+        // Crea un objeto con los datos del formulario
         let objeto = {
-            nombre: $("#nombre").val(),  
-            apellidos: $("#apellidos").val()
-        }
-        fetch(url,{
-            method:"POST",
+            nombre: nombre,
+            apellidos: apellidos
+        };
+
+        // Realiza una solicitud POST al servidor
+        fetch("/datos", {
+            method: "POST",
             body: JSON.stringify(objeto),
-            headers:{
+            headers: {
                 'Content-Type': 'application/json'
             }
         })
         .then(res => res.json())
         .then(obj => {
-            // Show the table and update it with the new data
+            // Muestra la tabla y actualiza los datos
             $("#datosMongoDB").show();
-            $("#datosMongoDB").empty(); // Clear the table before appending new rows
+            $("#datosMongoDB").empty(); // Limpia la tabla antes de agregar nuevas filas
             obj.forEach(usuario => {
-                // Add each user's data to the table
+                // Agrega los datos de cada usuario a la tabla
                 $("#datosMongoDB").append(`<tr><td>${usuario.nombre}</td><td>${usuario.apellidos}</td></tr>`);
             });
         })
         .catch(error => {
-            // Handle any errors that occur during the fetch
+            // Maneja cualquier error que ocurra durante la solicitud
             console.error('Error:', error);
         });
     });
 });
-
-        
-
-        // function getAjax(){
-        //     let url = "/datos";
-        //     fetch(url)
-        //     .then(res => res.json())
-        //     .then(obj => {
-        //         // Mostramos la tabla. Uso este método porque dejaba un pequeño trazo de la tabla en el HTML previo a
-        //         // la importación de los datos de la BBDD
-        //         $("#datosMongoDB").show();
-        //         obj.forEach(usuario => {
-        //             // Añadimos a la tabla los datos de cada usuario
-        //             $("#datosMongoDB").append(`<tr><td>${usuario.nombre}</td><td>${usuario.apellidos}</td></tr>`);
-        //         });
-        //     })
-        // }
 
     </script>
 </head>

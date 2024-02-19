@@ -14,6 +14,7 @@ router.get('/',(req,res)=>{
 });
 // Permite la vinculación estatica de estilos, imagenes,etc
 app.use(express.static(__dirname));
+app.use(express.json())
 
 // Creamos una ruta para obtener los datos
 // app.get('/datos', async (req, res) =>{
