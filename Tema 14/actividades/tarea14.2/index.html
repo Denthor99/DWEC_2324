@@ -4,24 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BBDD MongoDB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
     $(function(){
-    $('form').submit(function(e) {
-        // Previene el comportamiento predeterminado del formulario (enviar la solicitud)
+        /**
+         * datosMongoDB():
+         * Conecta con la base de datos para cargar los datos
+        */
+        function datosMongoDB(){
+            fetch('/datos',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(datos => {
+                // Generamos la tabla, pasandole el array de datos a mostrar
+                generarTabla(datos);
+            })
+            .catch(error => {
+                // Manejo de errores
+                console.error('Error al cargar los datos:', error);
+            });
+        }
+
+        /**
+         * generarTabla(data)
+         * Genera la tabla de forma dinamica con los datos de los usuarios
+        */
+        function generarTabla(datos) {
+            // Muestra la tabla y actualiza los datos
+            $("#datosMongoDB").show();
+
+            // Limpia la tabla antes de agregar nuevas filas
+            $("#datosMongoDB").empty();
+
+            // Creamos un contador
+            let contador = 1;
+
+            // Añadimos la cabecera a la tabla
+            $("#datosMongoDB").append(`<tr><th>id</th><th>Nombre</th><th>Apellidos</th></tr>`);
+
+            datos.forEach(usuario => {
+                // Se agrega línea a línea los datos a la tabla
+                $("#datosMongoDB").append(`<tr><td>${contador++}</td><td>${usuario.nombre}</td><td>${usuario.apellidos}</td></tr>`);
+            });
+        }
+    
+    // Creamos un evento vinculado al envio de los datos del formulario
+    $('#formMongoDB').submit(function(e) {
+        // Previene el comportamiento predeterminado del formulario (enviar los datos del formulario)
         e.preventDefault();
 
-        // Obtiene los valores del formulario
+        // Obtenemos los valores del formulario
         let nombre = $("#nombre").val();  
         let apellidos = $("#apellidos").val();
 
-        // Crea un objeto con los datos del formulario
+        // Creamos un objeto con los valores del formulario
         let objeto = {
             nombre: nombre,
             apellidos: apellidos
         };
 
-        // Realiza una solicitud POST al servidor
+        // Realizamos la petición al servidor
         fetch("/datos", {
             method: "POST",
             body: JSON.stringify(objeto),
@@ -30,34 +77,48 @@
             }
         })
         .then(res => res.json())
-        .then(obj => {
-            // Muestra la tabla y actualiza los datos
-            $("#datosMongoDB").show();
-            $("#datosMongoDB").empty(); // Limpia la tabla antes de agregar nuevas filas
-            obj.forEach(usuario => {
-                // Agrega los datos de cada usuario a la tabla
-                $("#datosMongoDB").append(`<tr><td>${usuario.nombre}</td><td>${usuario.apellidos}</td></tr>`);
-            });
+        .then(datos => {
+            // Generamos la tabla, pasandole el array de datos a mostrar
+            generarTabla(datos);
         })
         .catch(error => {
-            // Maneja cualquier error que ocurra durante la solicitud
-            console.error('Error:', error);
+            // Manejo de errores
+            console.error('Error al enviar los datos:', error);
         });
     });
+
+    // Cargamos los datos de la tabla
+    datosMongoDB();
+
 });
 
     </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1>Formulario de nuevos usuarios</h1>
-    <form action="" method="POST">
-        <label for="nombre">Nombre</label><br>
-        <input type="text" name="nombre" id="nombre" required><br>
-        <label for="apellidos">Apellidos</label><br>
-        <input type="text" name="apellidos" id="apellidos" required><br>
-        <button type="submit" id="botInsertar">Enviar datos</button>
-    </form>
-    <br>
-    <table id="datosMongoDB" border="1" hidden></table>
+    <div class="container">
+        <h1 class="mt-5 mb-4">Formulario de nuevos usuarios</h1>
+        <form id="formMongoDB" method="POST">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="apellidos">Apellidos</label>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar datos</button>
+        </form>
+        <br>
+        <table id="datosMongoDB" class="table table-bordered table-striped" style="display:none;">
+        </table>
+    </div>
+    <br><br>
+    <footer class="footer mt-auto py-3 fixed-bottom bg-light">
+        <div class="container">
+          <span class="text-muted">© 2024 
+              Daniel Alfonso Rodríguez Santos - DWEC - 2º DAW - Curso 23/24</span>
+        </div>
+      </footer>
 </body>
 </html>
