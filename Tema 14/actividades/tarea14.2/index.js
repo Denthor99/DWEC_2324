@@ -1,6 +1,8 @@
 // Importamos tanto mongoDB como express
 import express from 'express';
 import path from 'path';
+
+// Importamos los métodos con las operaciones a realizar en MongoDB
 import { conectLectura,conectEscritura } from './mongodb.js';
 
 // Creamos la instancia de nuestro pequeño servidor express
@@ -14,23 +16,13 @@ router.get('/',(req,res)=>{
 });
 // Permite la vinculación estatica de estilos, imagenes,etc
 app.use(express.static(__dirname));
+
+// Nos permite parsear el json recibido
 app.use(express.json())
-
-// Creamos una ruta para obtener los datos
-// app.get('/datos', async (req, res) =>{
-//     const datos = await conectLectura();
-//     res.json(datos);
-// });
-
-// Creamos otra ruta para enviar los datos
-// app.post('/datos', async (req, res) =>{
-//     //const subida = await conectEscritura();
-//     const datos = await conectLectura();
-// });
 app.post('/datos', async (req, res) => {
     try {
         // Comprobación si se está enviando algo
-        if (req.body.nombre !=='') {
+        if (req.body.nombre && req.body.nombre !=='') {
             // Pasamos como parametro el objeto req, para así insertar esos datos a MongoDB
             await conectEscritura(req.body)
 
@@ -51,23 +43,6 @@ app.post('/datos', async (req, res) => {
         console.log("Funciona correctamente")
     }
 });
-
-// Prueba de  a MongoDB de un documento (funciona)
-// async function pruebaSubida(){
-//     try {
-//         await client.connect();
-//         const coleccion = client.db("instituto").collection("personas");
-//         const datos = {
-//             nombre:"Fede",
-//             apellidos:"Lomera"
-//         }
-//         const result = await coleccion.insertOne(datos);
-//     } catch (error) {
-//         console.error(error);
-//     } finally {
-//         await client.close();
-//     }
-// }
 
 // Creamos la conexión
 app.listen(3000, () => console.log('Escuchando en el puerto 3000'));
