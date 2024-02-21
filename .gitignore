@@ -1,0 +1,10 @@
+# archivos temporales
+*.tmp
+*.swp
+*.swo
+
+# archivos de compilación
+/node_modules
+/vendor
+/dist
+/build
