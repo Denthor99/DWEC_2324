@@ -1,0 +1,48 @@
+
+/* Estilo para el título principal */
+.titulo {
+    text-align: center;
+    color: #fff;
+    background-color: #333;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+/* Estilo para la imagen de portada */
+.imagenPortada img {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Estilo para el texto de la portada */
+.textoPortada {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.textoPortada h2 {
+    color: #333;
+    margin-top: 0;
+    font-size: 1.9em;
+}
+
+.textoPortada p {
+    margin-bottom: 20px;
+    font-size: 1.25em;
+}
+
+.textoPortada ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.textoPortada ul li {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1.3em;
+}
