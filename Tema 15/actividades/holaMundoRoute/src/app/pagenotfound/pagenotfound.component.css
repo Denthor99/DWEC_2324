@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 20px;
+}
+
+.text {
+    display: block;
+    padding: 40px;
+    width: 450px;
+}
+
+.text h1 {
+    color: #fc6913;
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.text p {
+    font-size: 20px;
+    margin-bottom: 15px;
+    line-height: 1.5rem;
+}

@@ -1,45 +1,53 @@
-<br>
-<form class="example-form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Nombre de compañia</mat-label>
-      <input matInput placeholder="Compañia">
-    </mat-form-field>
-  
-    <table class="example-full-width" cellspacing="0"><tr>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>Nombre</mat-label>
-        <input matInput>
-      </mat-form-field></td>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>Apellidos</mat-label>
-        <input matInput>
-      </mat-form-field></td>
-    </tr></table>
-  
-    <p>
-      <mat-form-field class="example-full-width">
-        <mat-label>Dirección principal</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <mat-label>Dirección alternativa</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
-    </p>
-  
-    <table class="example-full-width" cellspacing="0"><tr>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>Ciudad</mat-label>
-        <input matInput placeholder="Ex. San Francisco">
-      </mat-form-field></td>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>C.A</mat-label>
-        <input matInput placeholder="Ex. Andalucia">
-      </mat-form-field></td>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>Código postal</mat-label>
-        <input matInput #postalCode maxlength="5" placeholder="Ex. 94105">
-        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-      </mat-form-field></td>
-    </tr></table>
-  </form>
+<div class="container">
+  <form action="">
+  <mat-form-field id="company">
+    <mat-label>Compañía</mat-label>
+    <input matInput />
+  </mat-form-field>
+
+  <br />
+
+  <mat-form-field id="name">
+    <mat-label>Nombre</mat-label>
+    <input matInput />
+  </mat-form-field>
+  <mat-form-field id="surname">
+    <mat-label>Apellidos</mat-label>
+    <input matInput />
+  </mat-form-field>
+
+  <br />
+
+  <mat-form-field id="address1">
+    <mat-label>Dirección</mat-label>
+    <input matInput />
+  </mat-form-field>
+
+  <br />
+
+  <mat-form-field id="address2">
+    <mat-label>Dirección Alternativa</mat-label>
+    <input matInput />
+  </mat-form-field>
+
+  <br />
+
+  <mat-form-field id="city">
+    <mat-label>Ciudad</mat-label>
+    <input matInput placeholder="Ej: Barcelona"/>
+  </mat-form-field>
+  <mat-form-field id="state">
+    <mat-label>Provincia</mat-label>
+    <input matInput placeholder="Ej: Cádiz"/>
+  </mat-form-field>
+  <mat-form-field id="postal_code">
+    <mat-label>Código Postal</mat-label>
+    <input matInput placeholder="Ej: 11630" />
+  </mat-form-field>
+
+  <br />
+  <div class="boton">
+    <button mat-raised-button color="primary">Enviar</button>
+  </div>
+</form>
+</div>

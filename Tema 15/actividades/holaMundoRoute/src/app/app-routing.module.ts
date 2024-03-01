@@ -6,26 +6,26 @@ import { ContactoComponent } from './contacto/contacto.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { ChildAComponent } from './child-a/child-a.component';
 import { ChildBComponent } from './child-b/child-b.component';
+
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, children:[
+ { path: 'home', component: HomeComponent, children: [
     {
       path: 'child-a',
-      component: ChildAComponent
+      component: ChildAComponent, 
     },
     {
       path: 'child-b',
-      component: ChildBComponent
-    }
-  ]
-  },
-  { path: 'productos', component: ProductosComponent },
-  { path: 'contacto', component: ContactoComponent },
-  { path: '', redirectTo:'/home', pathMatch: 'full' },
-  { path: '**', component: PagenotfoundComponent }
+      component: ChildBComponent, 
+    },
+ ] },
+ { path: 'productos', component: ProductosComponent },
+ { path: 'contacto', component: ContactoComponent },
+ { path: '',   redirectTo: '/home', pathMatch: 'full' },  
+ { path: '**', component: PagenotfoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+ imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+ exports: [RouterModule]
 })
 export class AppRoutingModule { }
